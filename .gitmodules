@@ -1,0 +1,27 @@
+[submodule "colour"]
+	path = colour
+	url = https://github.com/colour-science/colour.git
+[submodule "colour-checker-detection"]
+	path = colour-checker-detection
+	url = https://github.com/colour-science/colour-checker-detection.git
+[submodule "colour-clf-io"]
+	path = colour-clf-io
+	url = https://github.com/colour-science/colour-clf-io.git
+[submodule "colour-dash"]
+	path = colour-dash
+	url = https://github.com/colour-science/colour-dash.git
+[submodule "colour-datasets"]
+	path = colour-datasets
+	url = https://github.com/colour-science/colour-datasets.git
+[submodule "colour-demosaicing"]
+	path = colour-demosaicing
+	url = https://github.com/colour-science/colour-demosaicing.git
+[submodule "colour-hdri"]
+	path = colour-hdri
+	url = https://github.com/colour-science/colour-hdri.git
+[submodule "colour-specio"]
+	path = colour-specio
+	url = https://github.com/colour-science/colour-specio.git
+[submodule "colour-visuals"]
+	path = colour-visuals
+	url = https://github.com/colour-science/colour-visuals.git
