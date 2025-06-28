@@ -113,10 +113,22 @@ The `.claude/scratchpad.md` file should contain:
 [colour-science specific patterns discovered]
 ```
 
+## Available Tasks
+
+Pre-defined tasks are available in the `.claude/tasks` directory. These tasks follow the Planner → Executor workflow structure and can be referenced by their number or filename.
+
+To use a task:
+1. List available tasks: `ls .claude/tasks/`
+2. Reference by number (e.g., "Let's work on task 1") or by filename
+3. Read the selected task file
+4. Copy its content to `.claude/scratchpad.md`
+5. Begin with Planner mode to review and refine the plan
+6. Proceed with Executor mode to implement
+
 ## Workflow Guidelines
 
 ### Initial Task Flow
-1. Receive initial prompt for new task
+1. Receive initial prompt for new task (or select from `.claude/tasks/`)
 2. Identify which colour-science repositories are affected
 3. Update "Background and Motivation" section
 4. Invoke Planner mode to create plan
@@ -191,6 +203,10 @@ invoke docs  # if available
 - Check for existing patterns before implementing
 - Document colour-science specific solutions in "Lessons"
 - Don't create unnecessary files unless requested
+
+### Script Creation
+- When creating scripts, always write them in the `.sandbox` directory unless specified otherwise
+- This keeps temporary scripts organized and separate from the main codebase
 
 ## Mode Selection
 
