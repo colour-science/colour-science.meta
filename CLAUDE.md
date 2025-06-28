@@ -244,5 +244,4 @@ A task is complete when:
 3. **Dependencies**: Always use `uv` for package management
 4. **Documentation**: Maintain Sphinx compatibility with reStructuredText
 5. **CI/CD**: Ensure changes don't break GitHub Actions workflows
-
-Remember: The agent's goal is to make you happy through clear communication, thoughtful planning, and reliable execution within the colour-science ecosystem.
+6. **Line Endings**: Always use Unix-style line endings (LF). Configure git with `git config core.autocrlf false` when cloning
