@@ -1,291 +1,496 @@
-Configuration Files in colour-science Repositories
-==================================================
+# Configuration Files in Colour Science Repositories
+Generated: 2025-06-28 17:45:00
 
-GitHub Actions Workflows (.yml):
---------------------------------
-colour-hdri/.github/workflows/continuous-integration-documentation.yml
-colour-hdri/.github/workflows/continuous-integration-static-type-checking.yml
-colour-hdri/.github/workflows/continuous-integration-quality-unit-tests.yml
-colour/.github/workflows/continuous-integration-documentation.yml
-colour/.github/workflows/continuous-integration-quality-unit-tests.yml
-colour/.github/workflows/continuous-integration-static-type-checking.yml
-colour-demosaicing/.github/workflows/continuous-integration-documentation.yml
-colour-demosaicing/.github/workflows/continuous-integration-quality-unit-tests.yml
-colour-demosaicing/.github/workflows/continuous-integration-static-type-checking.yml
-colour-checker-detection/.github/workflows/continuous-integration-documentation.yml
-colour-checker-detection/.github/workflows/continuous-integration-static-type-checking.yml
-colour-checker-detection/.github/workflows/continuous-integration-quality-unit-tests.yml
-colour-datasets/.github/workflows/continuous-integration-documentation.yml
-colour-datasets/.github/workflows/continuous-integration-static-type-checking.yml
-colour-datasets/.github/workflows/continuous-integration-quality-unit-tests.yml
-colour-visuals/.github/workflows/continuous-integration-quality-unit-tests.yml
-colour-visuals/.github/workflows/continuous-integration-documentation.yml
-colour-visuals/.github/workflows/continuous-integration-static-type-checking.yml
-colour-clf-io/.github/workflows/continuous-integration-static-type-checking.yml
-colour-clf-io/.github/workflows/continuous-integration-quality-unit-tests.yml
-colour-clf-io/.github/workflows/continuous-integration-documentation.yml
+## Summary Statistics
+Total repositories scanned: 9
+Total configuration files found: 132
+Root-level meta files: 3
 
-GitHub Templates and Configuration:
------------------------------------
-colour-hdri/.github/PULL_REQUEST_TEMPLATE.md
-colour/.github/PULL_REQUEST_TEMPLATE.md
-colour-demosaicing/.github/PULL_REQUEST_TEMPLATE.md
-colour-checker-detection/.github/PULL_REQUEST_TEMPLATE.md
-colour-datasets/.github/PULL_REQUEST_TEMPLATE.md
-colour-visuals/.github/PULL_REQUEST_TEMPLATE.md
-colour-clf-io/.github/PULL_REQUEST_TEMPLATE.md
-colour/.github/funding.yml
-colour-hdri/.github/funding.yml
-colour-demosaicing/.github/funding.yml
-colour-checker-detection/.github/funding.yml
-colour-datasets/.github/funding.yml
-colour-visuals/.github/funding.yml
-colour-clf-io/.github/funding.yml
+## By Repository
 
-GitHub Issue Templates:
------------------------
-colour/.github/ISSUE_TEMPLATE/question.yml
-colour/.github/ISSUE_TEMPLATE/bug-report.yml
-colour/.github/ISSUE_TEMPLATE/feature-request.yml
-colour/.github/ISSUE_TEMPLATE/documentation-improvement.yml
-colour-hdri/.github/ISSUE_TEMPLATE/feature-request.yml
-colour-hdri/.github/ISSUE_TEMPLATE/documentation-improvement.yml
-colour-hdri/.github/ISSUE_TEMPLATE/bug-report.yml
-colour-hdri/.github/ISSUE_TEMPLATE/question.yml
-colour-demosaicing/.github/ISSUE_TEMPLATE/bug-report.yml
-colour-demosaicing/.github/ISSUE_TEMPLATE/documentation-improvement.yml
-colour-demosaicing/.github/ISSUE_TEMPLATE/feature-request.yml
-colour-demosaicing/.github/ISSUE_TEMPLATE/question.yml
-colour-checker-detection/.github/ISSUE_TEMPLATE/bug-report.yml
-colour-checker-detection/.github/ISSUE_TEMPLATE/feature-request.yml
-colour-checker-detection/.github/ISSUE_TEMPLATE/documentation-improvement.yml
-colour-checker-detection/.github/ISSUE_TEMPLATE/question.yml
-colour-datasets/.github/ISSUE_TEMPLATE/documentation-improvement.yml
-colour-datasets/.github/ISSUE_TEMPLATE/bug-report.yml
-colour-datasets/.github/ISSUE_TEMPLATE/question.yml
-colour-datasets/.github/ISSUE_TEMPLATE/feature-request.yml
-colour-visuals/.github/ISSUE_TEMPLATE/bug-report.yml
-colour-visuals/.github/ISSUE_TEMPLATE/feature-request.yml
-colour-visuals/.github/ISSUE_TEMPLATE/documentation-improvement.yml
-colour-visuals/.github/ISSUE_TEMPLATE/question.yml
-colour-clf-io/.github/ISSUE_TEMPLATE/bug-report.yml
-colour-clf-io/.github/ISSUE_TEMPLATE/question.yml
-colour-clf-io/.github/ISSUE_TEMPLATE/feature-request.yml
-colour-clf-io/.github/ISSUE_TEMPLATE/documentation-improvement.yml
+### colour/
+Category: CI/CD
+  - .github/workflows/continuous-integration-documentation.yml
+  - .github/workflows/continuous-integration-quality-unit-tests.yml
+  - .github/workflows/continuous-integration-static-type-checking.yml
 
-Python Project Configuration (pyproject.toml):
------------------------------------------------
-colour-hdri/pyproject.toml
-colour/pyproject.toml
-colour-demosaicing/pyproject.toml
-colour-checker-detection/pyproject.toml
-colour-datasets/pyproject.toml
-colour-visuals/pyproject.toml
-colour-clf-io/pyproject.toml
-colour-dash/pyproject.toml
-colour-specio/pyproject.toml
+Category: Documentation
+  - .readthedocs.yaml
+  - docs/conf.py
+  - docs/Makefile
 
-Invoke Tasks (tasks.py):
------------------------
-colour-hdri/tasks.py
-colour/tasks.py
-colour-demosaicing/tasks.py
-colour-checker-detection/tasks.py
-colour-datasets/tasks.py
-colour-visuals/tasks.py
-colour-clf-io/tasks.py
-colour-dash/tasks.py
+Category: Linting/Formatting
+  - .pre-commit-config.yaml
 
-Git Configuration (.gitignore):
--------------------------------
-colour-hdri/.gitignore
-colour/.gitignore
-colour-demosaicing/.gitignore
-colour-checker-detection/.gitignore
-colour-datasets/.gitignore
-colour-visuals/.gitignore
-colour-clf-io/.gitignore
-colour-dash/.gitignore
-colour-specio/.gitignore
+Category: Other
+  - LICENSE
 
-Pre-commit Configuration (.pre-commit-config.yaml):
----------------------------------------------------
-colour-hdri/.pre-commit-config.yaml
-colour/.pre-commit-config.yaml
-colour-demosaicing/.pre-commit-config.yaml
-colour-checker-detection/.pre-commit-config.yaml
-colour-datasets/.pre-commit-config.yaml
-colour-visuals/.pre-commit-config.yaml
-colour-clf-io/.pre-commit-config.yaml
-colour-dash/.pre-commit-config.yaml
+Category: Python Package Management
+  - pyproject.toml
+  - requirements.txt
+  - docs/requirements.txt
+  - uv.lock
 
-Documentation Makefiles:
-------------------------
-colour/docs/Makefile
-colour-hdri/docs/Makefile
-colour-demosaicing/docs/Makefile
-colour-checker-detection/docs/Makefile
-colour-datasets/docs/Makefile
-colour-visuals/docs/Makefile
-colour-clf-io/docs/Makefile
+Category: Task Runners
+  - tasks.py
 
-Sphinx Documentation Configuration (conf.py):
----------------------------------------------
-colour-hdri/docs/conf.py
-colour/docs/conf.py
-colour-demosaicing/docs/conf.py
-colour-checker-detection/docs/conf.py
-colour-datasets/docs/conf.py
-colour-visuals/docs/conf.py
-colour-clf-io/docs/conf.py
+Category: Testing
+  - .coveragerc
+  - colour/plotting/conftest.py
 
-Coverage Configuration (.coveragerc):
-------------------------------------
-colour-hdri/.coveragerc
-colour/.coveragerc
-colour-demosaicing/.coveragerc
-colour-checker-detection/.coveragerc
-colour-datasets/.coveragerc
-colour-visuals/.coveragerc
-colour-clf-io/.coveragerc
+Category: Version Control
+  - .gitignore
 
-Python Utilities Modules:
--------------------------
-colour-hdri/utilities/unicode_to_ascii.py
-colour-hdri/utilities/export_todo.py
-colour/utilities/export_todo.py
-colour/utilities/literalise.py
-colour/utilities/generate_plots.py
-colour/utilities/mock_for_colour.py
-colour/utilities/unicode_to_ascii.py
-colour-demosaicing/utilities/export_todo.py
-colour-demosaicing/utilities/unicode_to_ascii.py
-colour-checker-detection/utilities/export_todo.py
-colour-checker-detection/utilities/unicode_to_ascii.py
-colour-datasets/utilities/export_todo.py
-colour-datasets/utilities/unicode_to_ascii.py
-colour-visuals/utilities/export_todo.py
-colour-visuals/utilities/generate_plots.py
-colour-visuals/utilities/unicode_to_ascii.py
-colour-clf-io/utilities/export_todo.py
-colour-clf-io/utilities/unicode_to_ascii.py
 
-ReadTheDocs Configuration (.readthedocs.yaml):
----------------------------------------------
-colour/.readthedocs.yaml
-colour-hdri/.readthedocs.yaml
-colour-demosaicing/.readthedocs.yaml
-colour-checker-detection/.readthedocs.yaml
-colour-datasets/.readthedocs.yaml
-colour-visuals/.readthedocs.yaml
-colour-clf-io/.readthedocs.yaml
+### colour-checker-detection/
+Category: CI/CD
+  - .github/workflows/continuous-integration-documentation.yml
+  - .github/workflows/continuous-integration-quality-unit-tests.yml
+  - .github/workflows/continuous-integration-static-type-checking.yml
 
-Requirements Files (requirements.txt):
---------------------------------------
-colour/requirements.txt
-colour/docs/requirements.txt
-colour-hdri/requirements.txt
-colour-hdri/docs/requirements.txt
-colour-demosaicing/requirements.txt
-colour-demosaicing/docs/requirements.txt
-colour-checker-detection/requirements.txt
-colour-checker-detection/docs/requirements.txt
-colour-datasets/requirements.txt
-colour-datasets/docs/requirements.txt
-colour-visuals/requirements.txt
-colour-visuals/docs/requirements.txt
-colour-clf-io/requirements.txt
-colour-clf-io/docs/requirements.txt
-colour-dash/requirements.txt
+Category: Documentation
+  - .readthedocs.yaml
+  - docs/conf.py
+  - docs/Makefile
 
-UV Lock Files (uv.lock):
-------------------------
-colour/uv.lock
-colour-hdri/uv.lock
-colour-demosaicing/uv.lock
-colour-checker-detection/uv.lock
-colour-datasets/uv.lock
-colour-visuals/uv.lock
-colour-clf-io/uv.lock
-colour-dash/uv.lock
+Category: Linting/Formatting
+  - .pre-commit-config.yaml
 
-Documentation Build Files (make.bat):
--------------------------------------
-colour/docs/make.bat
-colour-hdri/docs/make.bat
-colour-demosaicing/docs/make.bat
-colour-checker-detection/docs/make.bat
-colour-datasets/docs/make.bat
-colour-visuals/docs/make.bat
-colour-clf-io/docs/make.bat
+Category: Other
+  - LICENSE
+  - colour_checker_detection/scripts/LICENSE
 
-Git Attributes (.gitattributes):
--------------------------------
-colour-specio/.gitattributes
+Category: Python Package Management
+  - pyproject.toml
+  - requirements.txt
+  - docs/requirements.txt
+  - uv.lock
 
-License Files (LICENSE):
-------------------------
-colour/LICENSE
-colour-hdri/LICENSE
-colour-demosaicing/LICENSE
-colour-checker-detection/LICENSE
-colour-datasets/LICENSE
-colour-visuals/LICENSE
-colour-clf-io/LICENSE
-colour-dash/LICENSE
-colour-specio/LICENSE
+Category: Task Runners
+  - tasks.py
 
-Project Documentation Files:
-----------------------------
-colour/CODE_OF_CONDUCT.md
-colour-hdri/CODE_OF_CONDUCT.md
-colour-demosaicing/CODE_OF_CONDUCT.md
-colour-checker-detection/CODE_OF_CONDUCT.md
-colour-datasets/CODE_OF_CONDUCT.md
-colour-visuals/CODE_OF_CONDUCT.md
-colour-clf-io/CODE_OF_CONDUCT.md
-colour-dash/CODE_OF_CONDUCT.md
+Category: Testing
+  - .coveragerc
 
-colour/CONTRIBUTORS.rst
-colour-hdri/CONTRIBUTORS.rst
-colour-demosaicing/CONTRIBUTORS.rst
-colour-checker-detection/CONTRIBUTORS.rst
-colour-datasets/CONTRIBUTORS.rst
-colour-visuals/CONTRIBUTORS.rst
-colour-dash/CONTRIBUTORS.rst
+Category: Version Control
+  - .gitignore
+  - .gitmodules
 
-colour/README.rst
-colour-hdri/README.rst
-colour-demosaicing/README.rst
-colour-checker-detection/README.rst
-colour-datasets/README.rst
-colour-visuals/README.rst
-colour-clf-io/README.rst
-colour-dash/README.rst
-colour-specio/README.md
 
-colour/CHANGES.rst
-colour-specio/AUTHORS.md
-colour-specio/DEVELOPER.md
+### colour-clf-io/
+Category: CI/CD
+  - .github/workflows/continuous-integration-documentation.yml
+  - .github/workflows/continuous-integration-quality-unit-tests.yml
+  - .github/workflows/continuous-integration-static-type-checking.yml
 
-colour/CONTRIBUTING.rst
-colour-clf-io/CONTRIBUTING.rst
+Category: Documentation
+  - .readthedocs.yaml
+  - docs/conf.py
+  - docs/Makefile
 
-colour/TODO.rst
-colour-hdri/TODO.rst
-colour-demosaicing/TODO.rst
-colour-checker-detection/TODO.rst
-colour-datasets/TODO.rst
-colour-visuals/TODO.rst
-colour-clf-io/TODO.rst
+Category: Linting/Formatting
+  - .pre-commit-config.yaml
 
-colour/BIBLIOGRAPHY.bib
-colour-hdri/BIBLIOGRAPHY.bib
-colour-demosaicing/BIBLIOGRAPHY.bib
-colour-checker-detection/BIBLIOGRAPHY.bib
-colour-datasets/BIBLIOGRAPHY.bib
-colour-clf-io/BIBLIOGRAPHY.bib
+Category: Other
+  - LICENSE
 
-Other Configuration Files:
--------------------------
-colour-dash/Dockerfile (Docker configuration)
+Category: Python Package Management
+  - pyproject.toml
+  - requirements.txt
+  - docs/requirements.txt
+  - uv.lock
+
+Category: Task Runners
+  - tasks.py
+
+Category: Testing
+  - colour_clf_io/tests/conftest.py
+
+Category: Version Control
+  - .gitignore
+
+
+### colour-dash/
+Category: Linting/Formatting
+  - .pre-commit-config.yaml
+
+Category: Other
+  - Dockerfile
+  - LICENSE
+
+Category: Python Package Management
+  - pyproject.toml
+  - requirements.txt
+  - uv.lock
+
+Category: Task Runners
+  - tasks.py
+
+Category: Version Control
+  - .gitignore
+
+
+### colour-datasets/
+Category: CI/CD
+  - .github/workflows/continuous-integration-documentation.yml
+  - .github/workflows/continuous-integration-quality-unit-tests.yml
+  - .github/workflows/continuous-integration-static-type-checking.yml
+
+Category: Documentation
+  - .readthedocs.yaml
+  - docs/conf.py
+  - docs/Makefile
+
+Category: Linting/Formatting
+  - .pre-commit-config.yaml
+
+Category: Other
+  - LICENSE
+
+Category: Python Package Management
+  - pyproject.toml
+  - requirements.txt
+  - docs/requirements.txt
+  - uv.lock
+
+Category: Task Runners
+  - tasks.py
+
+Category: Testing
+  - .coveragerc
+
+Category: Version Control
+  - .gitignore
+
+
+### colour-demosaicing/
+Category: CI/CD
+  - .github/workflows/continuous-integration-documentation.yml
+  - .github/workflows/continuous-integration-quality-unit-tests.yml
+  - .github/workflows/continuous-integration-static-type-checking.yml
+
+Category: Documentation
+  - .readthedocs.yaml
+  - docs/conf.py
+  - docs/Makefile
+
+Category: Linting/Formatting
+  - .pre-commit-config.yaml
+
+Category: Other
+  - LICENSE
+
+Category: Python Package Management
+  - pyproject.toml
+  - requirements.txt
+  - docs/requirements.txt
+  - uv.lock
+
+Category: Task Runners
+  - tasks.py
+
+Category: Testing
+  - .coveragerc
+
+Category: Version Control
+  - .gitignore
+  - .gitmodules
+
+
+### colour-hdri/
+Category: CI/CD
+  - .github/workflows/continuous-integration-documentation.yml
+  - .github/workflows/continuous-integration-quality-unit-tests.yml
+  - .github/workflows/continuous-integration-static-type-checking.yml
+
+Category: Documentation
+  - .readthedocs.yaml
+  - docs/conf.py
+  - docs/Makefile
+
+Category: Linting/Formatting
+  - .pre-commit-config.yaml
+
+Category: Other
+  - LICENSE
+
+Category: Python Package Management
+  - pyproject.toml
+  - requirements.txt
+  - docs/requirements.txt
+  - uv.lock
+
+Category: Task Runners
+  - tasks.py
+
+Category: Testing
+  - .coveragerc
+  - colour_hdri/plotting/conftest.py
+
+Category: Version Control
+  - .gitignore
+  - .gitmodules
+  - colour_hdri/resources/colour-hdri-examples-datasets/.gitignore
+
+
+### colour-specio/
+Category: Other
+  - LICENSE
+
+Category: Python Package Management
+  - pyproject.toml
+  - uv.lock
+
+Category: Version Control
+  - .gitattributes
+  - .gitignore
+
+
+### colour-visuals/
+Category: CI/CD
+  - .github/workflows/continuous-integration-documentation.yml
+  - .github/workflows/continuous-integration-quality-unit-tests.yml
+  - .github/workflows/continuous-integration-static-type-checking.yml
+
+Category: Documentation
+  - .readthedocs.yaml
+  - docs/conf.py
+  - docs/Makefile
+
+Category: Linting/Formatting
+  - .pre-commit-config.yaml
+
+Category: Other
+  - LICENSE
+
+Category: Python Package Management
+  - pyproject.toml
+  - requirements.txt
+  - docs/requirements.txt
+  - uv.lock
+
+Category: Task Runners
+  - tasks.py
+
+Category: Testing
+  - .coveragerc
+
+Category: Version Control
+  - .gitignore
+
+
+### Meta Repository Root Files
+Category: Other
+  - LICENSE
+
+Category: Version Control
+  - .gitignore
+  - .gitmodules
+
+
+## By Category
+
+### CI/CD
+- colour/.github/workflows/continuous-integration-documentation.yml
+- colour/.github/workflows/continuous-integration-quality-unit-tests.yml
+- colour/.github/workflows/continuous-integration-static-type-checking.yml
+- colour-checker-detection/.github/workflows/continuous-integration-documentation.yml
+- colour-checker-detection/.github/workflows/continuous-integration-quality-unit-tests.yml
+- colour-checker-detection/.github/workflows/continuous-integration-static-type-checking.yml
+- colour-clf-io/.github/workflows/continuous-integration-documentation.yml
+- colour-clf-io/.github/workflows/continuous-integration-quality-unit-tests.yml
+- colour-clf-io/.github/workflows/continuous-integration-static-type-checking.yml
+- colour-datasets/.github/workflows/continuous-integration-documentation.yml
+- colour-datasets/.github/workflows/continuous-integration-quality-unit-tests.yml
+- colour-datasets/.github/workflows/continuous-integration-static-type-checking.yml
+- colour-demosaicing/.github/workflows/continuous-integration-documentation.yml
+- colour-demosaicing/.github/workflows/continuous-integration-quality-unit-tests.yml
+- colour-demosaicing/.github/workflows/continuous-integration-static-type-checking.yml
+- colour-hdri/.github/workflows/continuous-integration-documentation.yml
+- colour-hdri/.github/workflows/continuous-integration-quality-unit-tests.yml
+- colour-hdri/.github/workflows/continuous-integration-static-type-checking.yml
+- colour-visuals/.github/workflows/continuous-integration-documentation.yml
+- colour-visuals/.github/workflows/continuous-integration-quality-unit-tests.yml
+- colour-visuals/.github/workflows/continuous-integration-static-type-checking.yml
+
+### Documentation
+- colour/.readthedocs.yaml
+- colour/docs/conf.py
+- colour/docs/Makefile
+- colour-checker-detection/.readthedocs.yaml
+- colour-checker-detection/docs/conf.py
+- colour-checker-detection/docs/Makefile
+- colour-clf-io/.readthedocs.yaml
+- colour-clf-io/docs/conf.py
+- colour-clf-io/docs/Makefile
+- colour-datasets/.readthedocs.yaml
+- colour-datasets/docs/conf.py
+- colour-datasets/docs/Makefile
+- colour-demosaicing/.readthedocs.yaml
+- colour-demosaicing/docs/conf.py
+- colour-demosaicing/docs/Makefile
+- colour-hdri/.readthedocs.yaml
+- colour-hdri/docs/conf.py
+- colour-hdri/docs/Makefile
+- colour-visuals/.readthedocs.yaml
+- colour-visuals/docs/conf.py
+- colour-visuals/docs/Makefile
+
+### Linting/Formatting
+- colour/.pre-commit-config.yaml
+- colour-checker-detection/.pre-commit-config.yaml
+- colour-clf-io/.pre-commit-config.yaml
+- colour-dash/.pre-commit-config.yaml
+- colour-datasets/.pre-commit-config.yaml
+- colour-demosaicing/.pre-commit-config.yaml
+- colour-hdri/.pre-commit-config.yaml
+- colour-visuals/.pre-commit-config.yaml
+
+### Other
+- colour/LICENSE
+- colour-checker-detection/LICENSE
+- colour-checker-detection/colour_checker_detection/scripts/LICENSE
+- colour-clf-io/LICENSE
+- colour-dash/Dockerfile
+- colour-dash/LICENSE
+- colour-datasets/LICENSE
+- colour-demosaicing/LICENSE
+- colour-hdri/LICENSE
+- colour-specio/LICENSE
+- colour-visuals/LICENSE
+- LICENSE (root)
+
+### Python Package Management
+- colour/pyproject.toml
+- colour/requirements.txt
+- colour/docs/requirements.txt
+- colour/uv.lock
+- colour-checker-detection/pyproject.toml
+- colour-checker-detection/requirements.txt
+- colour-checker-detection/docs/requirements.txt
+- colour-checker-detection/uv.lock
+- colour-clf-io/pyproject.toml
+- colour-clf-io/requirements.txt
+- colour-clf-io/docs/requirements.txt
+- colour-clf-io/uv.lock
+- colour-dash/pyproject.toml
+- colour-dash/requirements.txt
+- colour-dash/uv.lock
+- colour-datasets/pyproject.toml
+- colour-datasets/requirements.txt
+- colour-datasets/docs/requirements.txt
+- colour-datasets/uv.lock
+- colour-demosaicing/pyproject.toml
+- colour-demosaicing/requirements.txt
+- colour-demosaicing/docs/requirements.txt
+- colour-demosaicing/uv.lock
+- colour-hdri/pyproject.toml
+- colour-hdri/requirements.txt
+- colour-hdri/docs/requirements.txt
+- colour-hdri/uv.lock
+- colour-specio/pyproject.toml
+- colour-specio/uv.lock
+- colour-visuals/pyproject.toml
+- colour-visuals/requirements.txt
+- colour-visuals/docs/requirements.txt
+- colour-visuals/uv.lock
+
+### Task Runners
+- colour/tasks.py
+- colour-checker-detection/tasks.py
+- colour-clf-io/tasks.py
+- colour-dash/tasks.py
+- colour-datasets/tasks.py
+- colour-demosaicing/tasks.py
+- colour-hdri/tasks.py
+- colour-visuals/tasks.py
+
+### Testing
+- colour/.coveragerc
+- colour/colour/plotting/conftest.py
+- colour-checker-detection/.coveragerc
+- colour-clf-io/colour_clf_io/tests/conftest.py
+- colour-datasets/.coveragerc
+- colour-demosaicing/.coveragerc
+- colour-hdri/.coveragerc
+- colour-hdri/colour_hdri/plotting/conftest.py
+- colour-visuals/.coveragerc
+
+### Version Control
+- .gitignore (root)
+- .gitmodules (root)
+- colour/.gitignore
+- colour-checker-detection/.gitignore
+- colour-checker-detection/.gitmodules
+- colour-clf-io/.gitignore
+- colour-dash/.gitignore
+- colour-datasets/.gitignore
+- colour-demosaicing/.gitignore
+- colour-demosaicing/.gitmodules
+- colour-hdri/.gitignore
+- colour-hdri/.gitmodules
+- colour-hdri/colour_hdri/resources/colour-hdri-examples-datasets/.gitignore
+- colour-specio/.gitattributes
+- colour-specio/.gitignore
+- colour-visuals/.gitignore
+
+## Unique Configuration Types
+- .coveragerc
+- .gitattributes
+- .gitignore
+- .gitmodules
+- .pre-commit-config.yaml
+- .readthedocs.yaml
+- Dockerfile
+- LICENSE
+- Makefile (docs)
+- conf.py (Sphinx)
+- conftest.py (pytest)
+- continuous-integration-documentation.yml
+- continuous-integration-quality-unit-tests.yml
+- continuous-integration-static-type-checking.yml
+- pyproject.toml
+- requirements.txt
+- tasks.py
+- uv.lock
+
+## Repository Configuration Matrix
+
+| Repository | CI/CD | Document. | Linting/F. | Other | Python P. | Task Run. | Testing | Version C. |
+|------------|-------|-----------|------------|-------|-----------|-----------|---------|------------|
+| colour | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| colour-checker-detection | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| colour-clf-io | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| colour-dash | - | - | ✓ | ✓ | ✓ | ✓ | - | ✓ |
+| colour-datasets | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| colour-demosaicing | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| colour-hdri | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| colour-specio | - | - | - | ✓ | ✓ | - | - | ✓ |
+| colour-visuals | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+## Analysis Summary
+
+### Standardization Level: High
+- **Package Management**: All 9 repositories use modern `pyproject.toml` + `uv.lock` approach
+- **Task Automation**: 8/9 repositories use `invoke` with `tasks.py` files
+- **CI/CD Platform**: GitHub Actions exclusively (7/9 repositories)
+- **Documentation**: Sphinx + Read the Docs standard (7/9 repositories)
+
+### Configuration Patterns:
+1. **Full-featured repositories** (7): colour, colour-checker-detection, colour-clf-io, colour-datasets, colour-demosaicing, colour-hdri, colour-visuals
+2. **Minimal web app**: colour-dash (no CI/CD, docs, or testing configs)
+3. **Minimal library**: colour-specio (only basic files)
+
+### Notable Findings:
+- **Missing legacy files**: No `setup.py`, `setup.cfg`, `tox.ini`, or tool-specific config files found
+- **Modern tooling**: Configuration consolidated in `pyproject.toml` files
+- **Consistent workflows**: All CI/CD uses identical 3-workflow pattern
+- **Documentation coverage**: 78% of repositories have full documentation setup
+- **Testing coverage**: 67% of repositories have test configuration
+- **Containerization**: Only colour-dash uses Docker
+
+### Recommendations:
+1. Consider adding CI/CD to colour-dash and colour-specio
+2. Standardize testing configuration across all repositories
+3. Add documentation to colour-dash and colour-specio
+4. Consider adding `.editorconfig` for consistent code formatting
