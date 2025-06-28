@@ -48,10 +48,10 @@ The colour-science ecosystem consists of multiple repositories, each containing 
   - Validation: No repositories missed, all patterns detected
 
 ### Phase 3: Output Generation
-- [ ] Task 5: Generate organized output
+- [ ] Task 5: Generate JSON output
   - Repository: colour-science.meta/
-  - Success Criteria: Create `.claude/configuration-files.txt` with structured content
-  - Validation: File is readable, well-organized, and complete
+  - Success Criteria: Create `.claude/configuration-files.json` with structured content
+  - Validation: File is valid JSON, well-organized, and complete
 
 - [ ] Task 6: Add categorization and statistics
   - Repository: colour-science.meta/
@@ -94,6 +94,7 @@ Common configuration file patterns to search for:
 - `setup.py`
 - `setup.cfg`
 - `requirements*.txt`
+- `docs/requirements.txt`
 - `uv.lock`
 - `poetry.lock`
 - `Pipfile*`
@@ -163,60 +164,51 @@ Respect `.gitignore` patterns and exclude build/cache directories.
 
 ### Output Format
 
-The `.claude/configuration-files.txt` file will be structured as:
+The `.claude/configuration-files.json` file will be structured as:
 
-```
-# Configuration Files in Colour Science Repositories
-Generated: [timestamp]
-
-## Summary Statistics
-Total repositories scanned: 9
-Total configuration files found: [count]
-
-## By Repository
-
-### colour/
-Category: Python Package Management
-  - pyproject.toml
-  - uv.lock
-  
-Category: Testing
-  - pytest.ini
-  - .coveragerc
-  
-Category: Linting
-  - .pre-commit-config.yaml
-  - ruff.toml
-  
-Category: CI/CD
-  - .github/workflows/continuous-integration.yml
-  - .github/workflows/release.yml
-  
-Category: Documentation
-  - docs/conf.py
-  - .readthedocs.yaml
-
-[Continue for each repository...]
-
-## By Category
-
-### Python Package Management
-- colour/pyproject.toml
-- colour/uv.lock
-- colour-checker-detection/pyproject.toml
-- colour-checker-detection/uv.lock
-[etc...]
-
-### Testing
-- colour/pytest.ini
-- colour/.coveragerc
-[etc...]
-
-## Unique Configuration Types
-[List of unique config file types found across all repos]
-
-## Repository Configuration Matrix
-[Table showing which repos have which config types]
+```json
+{
+  "metadata": {
+    "generated": "2025-06-28 17:45:00",
+    "total_repositories": 10,
+    "total_files": 122
+  },
+  "repositories": {
+    "colour": {
+      "Python Package Management": [
+        "pyproject.toml",
+        "requirements.txt",
+        "docs/requirements.txt", 
+        "uv.lock"
+      ],
+      "Testing": [
+        ".coveragerc"
+      ],
+      "Linting/Formatting": [
+        ".pre-commit-config.yaml"
+      ],
+      "CI/CD": [
+        ".github/workflows/continuous-integration-documentation.yml",
+        ".github/workflows/continuous-integration-quality-unit-tests.yml",
+        ".github/workflows/continuous-integration-static-type-checking.yml"
+      ],
+      "Documentation": [
+        "docs/conf.py",
+        ".readthedocs.yaml"
+      ],
+      "Version Control": [
+        ".gitignore"
+      ],
+      "Other": [
+        "LICENSE"
+      ]
+    },
+    "colour-checker-detection": {
+      // ... similar structure for each repository
+    }
+    // ... other repositories
+  }
+}
 ```
 
 ### Execution Steps
@@ -238,17 +230,18 @@ Category: Documentation
    - Calculate statistics
    - Identify unique patterns
 
-4. **Generate Output**
-   - Create structured text file
-   - Include timestamps
-   - Add summary sections
-   - Format for readability
+4. **Generate JSON Output**
+   - Create structured JSON file
+   - Include metadata with timestamps
+   - Organize by repository categories
+   - Ensure valid JSON format
 
 ### Success Metrics
 
 - All 9 colour-science repositories scanned
 - No false positives (non-config files)
 - No missed configuration files
-- Output file is well-organized and parseable
-- Categories are meaningful and complete
-- Statistics accurately reflect findings
+- JSON output is valid and parseable  
+- Repository categories are meaningful and complete
+- Metadata statistics accurately reflect findings
+- Structure supports easy parsing by Task 4

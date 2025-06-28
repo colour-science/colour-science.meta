@@ -1,0 +1,281 @@
+{
+  "metadata": {
+    "generated": "2025-06-29 08:33:02",
+    "total_repositories": 10,
+    "total_files": 122
+  },
+  "repositories": {
+    "colour": {
+      "Python Package Management": [
+        "docs/requirements.txt",
+        "pyproject.toml",
+        "requirements.txt",
+        "uv.lock"
+      ],
+      "Task Runners": [
+        "docs/Makefile",
+        "tasks.py"
+      ],
+      "Testing": [
+        ".coveragerc"
+      ],
+      "Linting/Formatting": [
+        ".pre-commit-config.yaml"
+      ],
+      "Documentation": [
+        ".readthedocs.yaml",
+        "docs/conf.py"
+      ],
+      "Version Control": [
+        ".gitignore"
+      ],
+      "Other": [
+        "LICENSE"
+      ],
+      "CI/CD": [
+        ".github/workflows/continuous-integration-documentation.yml",
+        ".github/workflows/continuous-integration-quality-unit-tests.yml",
+        ".github/workflows/continuous-integration-static-type-checking.yml"
+      ]
+    },
+    "colour-checker-detection": {
+      "Python Package Management": [
+        "docs/requirements.txt",
+        "pyproject.toml",
+        "requirements.txt",
+        "uv.lock"
+      ],
+      "Task Runners": [
+        "docs/Makefile",
+        "tasks.py"
+      ],
+      "Testing": [
+        ".coveragerc"
+      ],
+      "Linting/Formatting": [
+        ".pre-commit-config.yaml"
+      ],
+      "Documentation": [
+        ".readthedocs.yaml",
+        "docs/conf.py"
+      ],
+      "Version Control": [
+        ".gitignore",
+        ".gitmodules"
+      ],
+      "Other": [
+        "LICENSE"
+      ],
+      "CI/CD": [
+        ".github/workflows/continuous-integration-documentation.yml",
+        ".github/workflows/continuous-integration-quality-unit-tests.yml",
+        ".github/workflows/continuous-integration-static-type-checking.yml"
+      ]
+    },
+    "colour-clf-io": {
+      "Python Package Management": [
+        "docs/requirements.txt",
+        "pyproject.toml",
+        "requirements.txt",
+        "uv.lock"
+      ],
+      "Task Runners": [
+        "docs/Makefile",
+        "tasks.py"
+      ],
+      "Linting/Formatting": [
+        ".pre-commit-config.yaml"
+      ],
+      "Documentation": [
+        ".readthedocs.yaml",
+        "docs/conf.py"
+      ],
+      "Version Control": [
+        ".gitignore"
+      ],
+      "Other": [
+        "LICENSE"
+      ],
+      "CI/CD": [
+        ".github/workflows/continuous-integration-documentation.yml",
+        ".github/workflows/continuous-integration-quality-unit-tests.yml",
+        ".github/workflows/continuous-integration-static-type-checking.yml"
+      ]
+    },
+    "colour-dash": {
+      "Python Package Management": [
+        "pyproject.toml",
+        "requirements.txt",
+        "uv.lock"
+      ],
+      "Task Runners": [
+        "tasks.py"
+      ],
+      "Linting/Formatting": [
+        ".pre-commit-config.yaml"
+      ],
+      "Version Control": [
+        ".gitignore"
+      ],
+      "Other": [
+        "Dockerfile",
+        "LICENSE"
+      ]
+    },
+    "colour-datasets": {
+      "Python Package Management": [
+        "docs/requirements.txt",
+        "pyproject.toml",
+        "requirements.txt",
+        "uv.lock"
+      ],
+      "Task Runners": [
+        "docs/Makefile",
+        "tasks.py"
+      ],
+      "Testing": [
+        ".coveragerc"
+      ],
+      "Linting/Formatting": [
+        ".pre-commit-config.yaml"
+      ],
+      "Documentation": [
+        ".readthedocs.yaml",
+        "docs/conf.py"
+      ],
+      "Version Control": [
+        ".gitignore"
+      ],
+      "Other": [
+        "LICENSE"
+      ],
+      "CI/CD": [
+        ".github/workflows/continuous-integration-documentation.yml",
+        ".github/workflows/continuous-integration-quality-unit-tests.yml",
+        ".github/workflows/continuous-integration-static-type-checking.yml"
+      ]
+    },
+    "colour-demosaicing": {
+      "Python Package Management": [
+        "docs/requirements.txt",
+        "pyproject.toml",
+        "requirements.txt",
+        "uv.lock"
+      ],
+      "Task Runners": [
+        "docs/Makefile",
+        "tasks.py"
+      ],
+      "Testing": [
+        ".coveragerc"
+      ],
+      "Linting/Formatting": [
+        ".pre-commit-config.yaml"
+      ],
+      "Documentation": [
+        ".readthedocs.yaml",
+        "docs/conf.py"
+      ],
+      "Version Control": [
+        ".gitignore",
+        ".gitmodules"
+      ],
+      "Other": [
+        "LICENSE"
+      ],
+      "CI/CD": [
+        ".github/workflows/continuous-integration-documentation.yml",
+        ".github/workflows/continuous-integration-quality-unit-tests.yml",
+        ".github/workflows/continuous-integration-static-type-checking.yml"
+      ]
+    },
+    "colour-hdri": {
+      "Python Package Management": [
+        "docs/requirements.txt",
+        "pyproject.toml",
+        "requirements.txt",
+        "uv.lock"
+      ],
+      "Task Runners": [
+        "docs/Makefile",
+        "tasks.py"
+      ],
+      "Testing": [
+        ".coveragerc"
+      ],
+      "Linting/Formatting": [
+        ".pre-commit-config.yaml"
+      ],
+      "Documentation": [
+        ".readthedocs.yaml",
+        "docs/conf.py"
+      ],
+      "Version Control": [
+        ".gitignore",
+        ".gitmodules"
+      ],
+      "Other": [
+        "LICENSE"
+      ],
+      "CI/CD": [
+        ".github/workflows/continuous-integration-documentation.yml",
+        ".github/workflows/continuous-integration-quality-unit-tests.yml",
+        ".github/workflows/continuous-integration-static-type-checking.yml"
+      ]
+    },
+    "colour-specio": {
+      "Python Package Management": [
+        "pyproject.toml"
+      ],
+      "Version Control": [
+        ".gitattributes",
+        ".gitignore"
+      ],
+      "Other": [
+        "LICENSE"
+      ]
+    },
+    "colour-visuals": {
+      "Python Package Management": [
+        "docs/requirements.txt",
+        "pyproject.toml",
+        "requirements.txt",
+        "uv.lock"
+      ],
+      "Task Runners": [
+        "docs/Makefile",
+        "tasks.py"
+      ],
+      "Testing": [
+        ".coveragerc"
+      ],
+      "Linting/Formatting": [
+        ".pre-commit-config.yaml"
+      ],
+      "Documentation": [
+        ".readthedocs.yaml",
+        "docs/conf.py"
+      ],
+      "Version Control": [
+        ".gitignore"
+      ],
+      "Other": [
+        "LICENSE"
+      ],
+      "CI/CD": [
+        ".github/workflows/continuous-integration-documentation.yml",
+        ".github/workflows/continuous-integration-quality-unit-tests.yml",
+        ".github/workflows/continuous-integration-static-type-checking.yml"
+      ]
+    },
+    "meta-root": {
+      "Other": [
+        "LICENSE"
+      ],
+      "Version Control": [
+        ".gitignore",
+        ".gitmodules"
+      ]
+    }
+  }
+}
