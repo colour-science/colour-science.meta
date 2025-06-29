@@ -1,4 +1,4 @@
-# Project: Generate Configuration Files Comparison CSV
+# Project: Compare Configuration Files
 
 ## Background and Motivation
 
