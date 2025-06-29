@@ -1,8 +1,8 @@
-# Project: Task 4 - Generate Configuration Comparison CSV from JSON
+# Project: Task 5 - Detailed Configuration Files Analysis
 
 ## Background and Motivation
 
-Task 4 involves generating a structured CSV comparison of configuration files across all colour-science repositories using the JSON output from Task 3. The comparison uses the `colour` repository as the reference baseline and calculates line differences for each other repository. This CSV enables data analysis, visualization, and identification of configuration inconsistencies across the ecosystem.
+Task 5 performs an in-depth analysis of key configuration files across the colour-science ecosystem. The analysis focuses on five critical configuration file types (GitHub workflows, pre-commit configs, tasks.py, docs/conf.py, and pyproject.toml) using the `colour` repository as reference. This analysis goes beyond simple line differences to understand semantic variations and generate actionable recommendations for standardization.
 
 ## Affected Repositories
 - [x] colour/ (core reference repository)
@@ -18,30 +18,30 @@ Task 4 involves generating a structured CSV comparison of configuration files ac
 
 ## Key Challenges and Analysis
 
-1. **JSON Parsing**: Parse the simplified JSON structure from Task 3
-2. **Reference Baseline**: Use `colour` repository as comparison standard
-3. **File Matching**: Match files by basename across repositories
-4. **Line Differences**: Calculate accurate diff metrics using difflib
-5. **Null Handling**: Use empty cells consistently (no "N/A" values)
-6. **Status Types**: Handle EXISTS, MISSING, and EXTRA file scenarios
+1. **Multi-format Parsing**: Handle YAML, TOML, and Python configuration files
+2. **Semantic Analysis**: Understand functional differences beyond line counts
+3. **Missing File Handling**: Gracefully handle repositories lacking configs
+4. **Table Formatting**: Generate properly aligned Markdown tables
+5. **Actionable Insights**: Produce specific recommendations for standardization
+6. **Performance**: Efficiently analyze all files across 9 repositories
 
 ## High-level Task Breakdown
 
-### Task 4 Implementation
-- [ ] Task 1: Review JSON parsing and CSV generation approach
+### Task 5 Implementation
+- [ ] Task 1: Create analysis script structure
   - Repository: colour-science.meta/
-  - Success Criteria: Confirm approach for parsing JSON and generating CSV
-  - Validation: Script handles JSON structure correctly
+  - Success Criteria: Script framework with proper imports and classes
+  - Validation: Handles JSON input and file parsing
 
-- [ ] Task 2: Execute CSV comparison generation
-  - Repository: colour-science.meta/
-  - Success Criteria: Generate complete `.sandbox/configuration-files-comparison.csv`
-  - Validation: All repositories compared, proper CSV format
+- [ ] Task 2: Implement configuration parsers
+  - Repository: colour-science.meta/  
+  - Success Criteria: Parse YAML/TOML files and extract semantic data
+  - Validation: Correctly handles malformed files
 
-- [ ] Task 3: Validate CSV output quality
+- [ ] Task 3: Generate analysis report
   - Repository: colour-science.meta/
-  - Success Criteria: CSV meets specification with empty cells (not N/A)
-  - Validation: Status types, line differences, and data consistency
+  - Success Criteria: Create `.sandbox/detailed-config-analysis.md`
+  - Validation: Properly formatted tables with actionable insights
 
 ## Project Status Board
 
@@ -49,110 +49,111 @@ Task 4 involves generating a structured CSV comparison of configuration files ac
 - None currently
 
 ### Completed
-- [x] Task 1: Review JSON parsing and CSV generation approach
-- [x] Task 2: Execute CSV comparison generation
-- [x] Task 3: Validate CSV output quality
-- [x] Task 3 execution completed successfully
-- [x] JSON configuration data available (.claude/configuration-files.json)
-- [x] Task 4 specification updated for JSON input
-- [x] CSV generation script created (.sandbox/generate_csv_comparison_json.py)
+- [x] Task 1: Create analysis script structure
+- [x] Task 2: Implement configuration parsers
+- [x] Task 3: Generate analysis report
+- [x] Planning phase complete
+- [x] Task 5 specification defined
+- [x] Algorithm design complete with enhanced grouping patterns
+- [x] JSON input data available from Task 3
+- [x] Enhanced scripts with grouping patterns implemented
+- [x] Task file algorithm updated to match implementation
+- [x] Configuration analysis executed successfully
+- [x] Enhanced ruff rule analysis to show specific differences
+- [x] Final report validation completed (331 lines, 256 table rows)
 
 ### Blocked
 - None currently
 
 ## Current Status / Progress Tracking
 
-**JSON FORMAT TRANSITION**: Updating Task 3 to use simplified JSON output format as requested.
+**PLANNING TASK 5: Enhanced Configuration Analysis**
 
-**Planning Phase Complete**:
-- JSON structure confirmed: metadata + repositories with categories
-- Scanning approach validated: non-recursive for performance
-- Script ready: `.sandbox/json_config_scan.py` created and tested
-- Output format: `.claude/configuration-files.json`
+**Current Resources Available**:
+✅ **Configuration Data**: Task 3 JSON with 122 files across 10 repositories
+✅ **Enhanced Scripts**: Configuration analyzer with semantic analysis capabilities
+✅ **Report Generator**: Advanced formatting with grouping patterns
+✅ **Task Specification**: Fully updated algorithm matching implementation
+✅ **Previous Analysis**: Successful configuration-files-analysis.md (332 lines)
 
-**TASK 4 PLANNING PHASE**: Reviewing CSV generation approach using JSON input.
+**Enhanced Features Ready**:
+- Grouping by configuration type rather than repository
+- Hook configuration differences grouped by hook type
+- Dependency analysis grouped by usage patterns
+- Tool configuration differences grouped by setting type
+- Relative path usage throughout
+- Empty subsection removal
+- Repository names with backticks for readability
 
-**Available Resources**:
-✅ **JSON Input**: Task 3 JSON data available with 122 configuration files
-✅ **Script Ready**: `.sandbox/generate_csv_comparison_json.py` already created and tested
-✅ **Previous Results**: CSV generation previously produced 126 rows successfully
-
-**TASK 4 EXECUTION COMPLETE**: CSV comparison generated successfully from JSON data.
-
-**Execution Results**:
-✅ **CSV Generated**: `.sandbox/configuration-files-comparison.csv` created successfully
-- 126 rows total (125 data + 1 header)
-- Status distribution: 100 EXISTS, 20 MISSING, 5 EXTRA
-- All 8 target repositories covered (15-16 rows each)
-- Proper header: Category, Reference File, Target Repository, Target File, Status, Line Differences
-
-**Quality Validation**:
-✅ **Empty Cell Handling**: MISSING entries have empty Target File and Line Differences
-✅ **Repository Coverage**: All 8 non-colour repositories compared
-✅ **Status Types**: EXISTS/MISSING/EXTRA correctly assigned
-✅ **Line Differences**: Accurate difflib calculations for existing files
+**Ready to Execute**:
+- All scripts tested and working
+- Algorithm synchronized with implementation
+- Input data validated and available
+- Output format specified and tested
 
 ## Executor's Feedback or Assistance Requests
 
-None at this time. CSV generation approach is ready for execution.
+None at this time. Ready to implement configuration analysis.
 
 ## Lessons
 
-- JSON format enables much simpler parsing than text structures
-- Task 3 → Task 4 pipeline demonstrates effective workflow design
-- Empty cell handling improves CSV consistency over "N/A" values
-- Colour repository provides good baseline for comparisons
+- Semantic analysis provides more value than line-by-line comparison
+- Table formatting with proper alignment improves readability
+- Full repository names in headers clarify analysis scope
+- Centered checkmarks create visual consistency
 
 ## Implementation Details
 
-### Task 4 CSV Generation Plan
+### Task 5 Analysis Plan
 
-**Objective**: Generate CSV comparison using colour repository as baseline reference.
+**Objective**: Perform detailed semantic analysis of 5 configuration file types.
 
-**Approach**: Parse JSON from Task 3 and create structured comparison with proper null handling.
+**Implementation Steps**:
+1. Create `ConfigurationAnalyzer` class
+2. Implement parsers for YAML, TOML, and Python files
+3. Analyze differences at semantic level (not just line counts)
+4. Generate Markdown report with aligned tables
 
-**Script**: `.sandbox/generate_csv_comparison_json.py` contains the implementation with:
-- Simple JSON parsing using json.load()
-- File matching by basename across repositories
-- Line difference calculation using Python difflib
-- Empty cell handling for MISSING/EXTRA files (no "N/A")
+**Script Structure**: `.sandbox/detailed_config_analyzer.py`
+- Load JSON data from Task 3
+- Parse configuration files using appropriate libraries
+- Compare against colour repository baseline
+- Format findings into readable Markdown tables
 
-**Expected Output**: `.sandbox/configuration-files-comparison.csv` with:
-- Header: Category, Reference File, Target Repository, Target File, Status, Line Differences
-- ~126 rows comparing all repositories against colour baseline
-- Status types: EXISTS, MISSING, EXTRA
-- Empty cells for missing data (consistent null handling)
+**Expected Output**: `.sandbox/detailed-config-analysis.md`
+- Executive summary with key metrics
+- 5 sections for each configuration type
+- Properly aligned tables with centered checkmarks
+- Prioritized recommendations
 
 ### Validation Criteria
 
-**CSV Structure Validation**:
-- Valid CSV format with proper header row
-- All required columns present: Category, Reference File, Target Repository, Target File, Status, Line Differences
-- Consistent formatting across all rows
-- Proper CSV escaping for any special characters
+**Script Functionality**:
+- Successfully loads JSON configuration data
+- Handles missing files gracefully without crashing
+- Parses YAML/TOML files correctly
+- Generates valid Markdown output
 
-**Content Validation**:
-- All 8 target repositories compared against colour baseline
-- All configuration categories from colour repository represented
-- Status types correctly assigned: EXISTS, MISSING, EXTRA
-- Line differences accurately calculated using difflib
-- Empty cells used consistently (no "N/A" values)
+**Report Quality**:
+- All tables properly aligned with consistent formatting
+- Checkmarks centered in appropriate columns
+- Full repository names used in headers
+- Clear section organization
 
-**Data Quality Validation**:
-- File matching by basename works correctly
-- Reference and target file paths are accurate
-- No duplicate comparison rows
-- Meta-root files excluded from comparisons appropriately
+**Analysis Accuracy**:
+- Correctly identifies missing configurations
+- Detects version differences in tools
+- Finds workflow variations
+- Produces actionable recommendations
 
 ### Execution Commands
 
 ```bash
-# Task 4: CSV comparison generation from JSON
-python3 .sandbox/generate_csv_comparison_json.py
+# Task 5: Detailed configuration analysis
+python3 .sandbox/detailed_config_analyzer.py
 
 # Validation commands
-wc -l .sandbox/configuration-files-comparison.csv  # Row count
-head -5 .sandbox/configuration-files-comparison.csv  # Check header and first rows
-cut -d',' -f5 .sandbox/configuration-files-comparison.csv | sort | uniq -c  # Status distribution
-cut -d',' -f3 .sandbox/configuration-files-comparison.csv | sort | uniq -c  # Repository coverage
+head -20 .sandbox/detailed-config-analysis.md  # Check report header
+grep -c "^|" .sandbox/detailed-config-analysis.md  # Count table rows
+grep "Priority" .sandbox/detailed-config-analysis.md  # Check recommendations
 ```
