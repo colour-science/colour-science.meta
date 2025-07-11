@@ -124,6 +124,7 @@ class DocstringObject:
     code_context: str
     parent_context: Optional[str] = None
     metadata: dict[str, Any] = field(default_factory=dict)
+    qualified_name: str = ""  # Full hierarchy: file.Class.method
 
 
 @dataclass
@@ -399,7 +400,7 @@ class AsyncLLMProcessor:
     ) -> ProcessingResult:
         """Process docstring using CLI with text blocks output and retry logic."""
 
-        object_name = docstring_object.name
+        object_name = docstring_object.qualified_name or docstring_object.name
         self.logger.info(
             "[%s] Starting %s CLI processing",
             object_name,
@@ -740,23 +741,17 @@ class AsyncDocstringProcessor:
                         line_start=1,
                         line_end=len(module_docstring.split("\n")),
                         code_context=module_context,
+                        qualified_name=file_path.stem,
                     )
                 )
 
-            # Walk the tree to find functions, classes, and variable docstrings
-            for node in ast.walk(tree):
-                if isinstance(
-                    node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)
-                ):
-                    docstring = ast.get_docstring(node)
-                    if docstring:
-                        docstring_object = self._create_docstring_object(
-                            node, docstring, source
-                        )
-                        if docstring_object:
-                            docstring_objects.append(docstring_object)
+            # Walk the tree hierarchically to find functions, classes, and variable docstrings
+            file_stem = file_path.stem
+            self._walk_tree_hierarchically(
+                tree, source, file_stem, [], docstring_objects
+            )
 
-            # Find module-level variable docstrings (var.__doc__ = "...")
+            # Find module-level attribute docstrings (var.__doc__ = "...")
             lines = source.splitlines()
             for i, node in enumerate(tree.body):
                 # Skip if not an assignment or not a __doc__ assignment
@@ -773,42 +768,45 @@ class AsyncDocstringProcessor:
                 ):
                     continue
 
-                var_name = node.targets[0].value.id
+                module_attribute_name = node.targets[0].value.id
                 docstring = node.value.value
 
-                # Find the variable definition by walking backwards
-                var_def_node = None
+                # Find the module attribute definition by walking backwards
+                module_attribute_definition_node = None
                 for j in range(i - 1, -1, -1):
                     # Handle both regular assignments and annotated assignments
                     if isinstance(tree.body[j], ast.Assign):
                         if any(
-                            isinstance(t, ast.Name) and t.id == var_name
-                            for t in tree.body[j].targets
+                            isinstance(target, ast.Name)
+                            and target.id == module_attribute_name
+                            for target in tree.body[j].targets
                         ):
-                            var_def_node = tree.body[j]
+                            module_attribute_definition_node = tree.body[j]
                             break
                     elif isinstance(tree.body[j], ast.AnnAssign):
                         if (
                             isinstance(tree.body[j].target, ast.Name)
-                            and tree.body[j].target.id == var_name
+                            and tree.body[j].target.id == module_attribute_name
                         ):
-                            var_def_node = tree.body[j]
+                            module_attribute_definition_node = tree.body[j]
                             break
 
-                if var_def_node:
-                    # Extract context around variable definition
-                    context_start = max(0, var_def_node.lineno - 3)
+                if module_attribute_definition_node:
+                    # Extract context around module attribute definition
+                    context_start = max(0, module_attribute_definition_node.lineno - 3)
                     context_end = min(len(lines), node.end_lineno + 2)
                     code_context = "\n".join(lines[context_start:context_end])
 
+                    qualified_attr_name = f"{file_stem}.{module_attribute_name}"
                     docstring_objects.append(
                         DocstringObject(
                             type=DocstringType.MODULE_ATTRIBUTE,
-                            name=var_name,
+                            name=module_attribute_name,
                             content=docstring,
                             line_start=node.lineno,
                             line_end=node.end_lineno or node.lineno,
                             code_context=code_context,
+                            qualified_name=qualified_attr_name,
                         )
                     )
 
@@ -818,8 +816,44 @@ class AsyncDocstringProcessor:
             self.logger.error("Unexpected error parsing %s: %s", file_path, str(error))
             return []
 
+    def _walk_tree_hierarchically(
+        self,
+        node: ast.AST,
+        source: str,
+        file_stem: str,
+        path: list[str],
+        docstring_objects: list[DocstringObject],
+    ) -> None:
+        """Walk AST tree hierarchically to maintain class/function hierarchy."""
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            docstring = ast.get_docstring(node)
+            if docstring:
+                # Build qualified name: file.Class.method or file.function
+                qualified_parts = [file_stem] + path + [node.name]
+                qualified_name = ".".join(qualified_parts)
+
+                docstring_object = self._create_docstring_object(
+                    node, docstring, source, qualified_name
+                )
+                if docstring_object:
+                    docstring_objects.append(docstring_object)
+
+            # If it's a class, recurse into its methods with updated path
+            if isinstance(node, ast.ClassDef):
+                new_path = path + [node.name]
+                for child in node.body:
+                    self._walk_tree_hierarchically(
+                        child, source, file_stem, new_path, docstring_objects
+                    )
+        else:
+            # For non-class/function nodes, continue walking without updating path
+            for child in ast.iter_child_nodes(node):
+                self._walk_tree_hierarchically(
+                    child, source, file_stem, path, docstring_objects
+                )
+
     def _create_docstring_object(
-        self, node: ast.AST, docstring: str, source: str
+        self, node: ast.AST, docstring: str, source: str, qualified_name: str = ""
     ) -> Optional[DocstringObject]:
         """Create DocstringObject from AST node."""
         if isinstance(node, ast.ClassDef):
@@ -830,6 +864,7 @@ class AsyncDocstringProcessor:
                 line_start=node.lineno,
                 line_end=node.lineno + len(docstring.split("\n")),
                 code_context=self._get_class_context(node, source),
+                qualified_name=qualified_name,
             )
         elif isinstance(node, ast.FunctionDef):
             func_type = self._classify_function(node)
@@ -840,6 +875,7 @@ class AsyncDocstringProcessor:
                 line_start=node.lineno,
                 line_end=node.lineno + len(docstring.split("\n")),
                 code_context=self._get_function_context(node, source),
+                qualified_name=qualified_name,
             )
         elif isinstance(node, ast.AsyncFunctionDef):
             func_type = (
@@ -854,6 +890,7 @@ class AsyncDocstringProcessor:
                 line_start=node.lineno,
                 line_end=node.lineno + len(docstring.split("\n")),
                 code_context=self._get_function_context(node, source),
+                qualified_name=qualified_name,
             )
 
         return None
@@ -918,7 +955,7 @@ class AsyncDocstringProcessor:
         """
         Replace a docstring in a file, orchestrating the read, update, and write operations.
         """
-        object_name = docstring_object.name
+        object_name = docstring_object.qualified_name or docstring_object.name
         self.logger.debug(
             "[%s] Starting replacement process in %s", object_name, file_path
         )
@@ -1004,7 +1041,7 @@ class AsyncDocstringProcessor:
         new_docstring: str,
     ) -> Optional[str]:
         """Replace the docstring in the string content of a file."""
-        object_name = docstring_object.name
+        object_name = docstring_object.qualified_name or docstring_object.name
         try:
             tree = ast.parse(original_content)
             lines = original_content.splitlines()
@@ -1515,12 +1552,12 @@ class AsyncOrchestrationEngine:
         """Process a single docstring object."""
         self.logger.info(
             "[%s] Processing %s...",
-            docstring_object.name,
+            docstring_object.qualified_name or docstring_object.name,
             docstring_object.type.value,
         )
         self.logger.debug(
             "[%s] Content length: %s chars",
-            docstring_object.name,
+            docstring_object.qualified_name or docstring_object.name,
             len(docstring_object.content),
         )
 
@@ -1528,8 +1565,8 @@ class AsyncOrchestrationEngine:
         async with self.semaphore:
             self.logger.debug(
                 "[%s] Starting processing %s with timeout...",
-                docstring_object.name,
-                docstring_object.name,
+                docstring_object.qualified_name or docstring_object.name,
+                docstring_object.qualified_name or docstring_object.name,
             )
             # Total timeout should account for retries with exponential backoff
             # Calculate actual retry delays with exponential backoff
@@ -1551,14 +1588,14 @@ class AsyncOrchestrationEngine:
                 )
                 self.logger.debug(
                     "[%s] Processing %s completed successfully",
-                    docstring_object.name,
-                    docstring_object.name,
+                    docstring_object.qualified_name or docstring_object.name,
+                    docstring_object.qualified_name or docstring_object.name,
                 )
             except asyncio.TimeoutError:
                 self.logger.warning(
                     "[%s] Timeout processing %s",
-                    docstring_object.name,
-                    docstring_object.name,
+                    docstring_object.qualified_name or docstring_object.name,
+                    docstring_object.qualified_name or docstring_object.name,
                 )
                 processing_result = ProcessingResult(
                     original=docstring_object.content,
@@ -1570,8 +1607,8 @@ class AsyncOrchestrationEngine:
             except Exception as processing_exception:
                 self.logger.error(
                     "[%s] Exception processing %s: %s",
-                    docstring_object.name,
-                    docstring_object.name,
+                    docstring_object.qualified_name or docstring_object.name,
+                    docstring_object.qualified_name or docstring_object.name,
                     str(processing_exception),
                 )
                 processing_result = ProcessingResult(
@@ -1584,7 +1621,7 @@ class AsyncOrchestrationEngine:
 
         self.logger.info(
             "[%s] %s",
-            docstring_object.name,
+            docstring_object.qualified_name or docstring_object.name,
             processing_result.validation_status,
         )
 
