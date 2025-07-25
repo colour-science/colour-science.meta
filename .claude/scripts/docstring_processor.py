@@ -157,6 +157,7 @@ CRITICAL PRESERVATION RULES (NEVER VIOLATE):
 - **PRESERVE ALL INFORMATION**: Do NOT remove any existing information, explanations, or factual content
 - **PRESERVE EXAMPLES**: Do not modify any Examples sections or code blocks
 - **PRESERVE REFERENCES**: Maintain all citation references and bibliography entries
+- **PRESERVE RST SECTIONS**: Keep ALL reStructuredText sections intact (Parameters, Returns, Notes, Examples, References, Attributes, etc.), especially for class properties
 - **PRESERVE RST MARKERS**: Keep :math:, :param:, :attr:, etc. functional
 - **PRESERVE BRITISH SPELLING**: Maintain "colour", "colourspace", etc.
 - **PRESERVE MEANING**: Enhance rather than change the fundamental meaning
@@ -2028,6 +2029,7 @@ def main(
         # Target multiple functions with wildcard
         uv run docstring_processor.py colour/ --object-pattern "sd_to_XYZ*"
     """
+
     try:
         asyncio.run(
             _async_main(paths, tool, parallel, file_pattern, object_pattern, dry_run)
