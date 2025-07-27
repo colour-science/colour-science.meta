@@ -1398,7 +1398,9 @@ class AsyncOrchestrationEngine:
         self.logger.info("Processing %s files...", len(file_paths))
 
         tasks = [
-            self._process_file_with_logging(file_path, dry_run, object_pattern)
+            asyncio.create_task(
+                self._process_file_with_logging(file_path, dry_run, object_pattern)
+            )
             for file_path in file_paths
         ]
 
