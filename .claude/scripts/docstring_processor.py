@@ -1319,15 +1319,43 @@ class AsyncDocstringProcessor:
                     return self._get_docstring_bounds(node.value)
             return None
 
-        # For functions, methods, and classes
-        for node in ast.walk(tree):
-            if hasattr(node, "name") and node.name == docstring_object.name:
-                if isinstance(
-                    node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)
-                ):
-                    docstring_node = self._get_docstring_node(node)
-                    if docstring_node:
-                        return self._get_docstring_bounds(docstring_node)
+        # For functions, methods, and classes - use hierarchical search to respect qualified names
+        return self._find_docstring_location_hierarchical(tree, docstring_object, [])
+
+    def _find_docstring_location_hierarchical(
+        self, node: ast.AST, docstring_object: DocstringObject, path: list[str]
+    ) -> Optional[tuple[int, int, str, str]]:
+        """Find docstring location by matching the full qualified name path."""
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            current_path = path + [node.name]
+            
+            # Check if this matches our target qualified name
+            qualified_parts = docstring_object.qualified_name.split('.')
+            # Skip the file name (first part) to compare just the class.method parts
+            target_path = qualified_parts[1:] if len(qualified_parts) > 1 else [qualified_parts[0]]
+            
+            if current_path == target_path:
+                # Found our target node
+                docstring_node = self._get_docstring_node(node)
+                if docstring_node:
+                    return self._get_docstring_bounds(docstring_node)
+            
+            # If it's a class, recurse into its methods with updated path
+            if isinstance(node, ast.ClassDef):
+                for child in node.body:
+                    result = self._find_docstring_location_hierarchical(
+                        child, docstring_object, current_path
+                    )
+                    if result:
+                        return result
+        else:
+            # For non-class/function nodes, continue walking without updating path
+            for child in ast.iter_child_nodes(node):
+                result = self._find_docstring_location_hierarchical(
+                    child, docstring_object, path
+                )
+                if result:
+                    return result
 
         return None
 
