@@ -900,24 +900,24 @@ class AsyncDocstringProcessor:
         """
         property_info = {}
         
-        # First pass: identify all property getters
+        # Single pass to identify both getters and setters
         for node in class_node.body:
             if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 for decorator in node.decorator_list:
+                    # Check for property getter
                     if isinstance(decorator, ast.Name) and decorator.id == "property":
                         property_info[node.name] = {"has_setter": False}
                         break
-        
-        # Second pass: identify setters and update property info
-        for node in class_node.body:
-            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                for decorator in node.decorator_list:
-                    if isinstance(decorator, ast.Attribute) and decorator.attr == "setter":
+                    # Check for property setter
+                    elif isinstance(decorator, ast.Attribute) and decorator.attr == "setter":
                         if isinstance(decorator.value, ast.Name):
                             property_name = decorator.value.id
-                            # Mark the property as having a setter
-                            if property_name in property_info:
+                            if property_name not in property_info:
+                                # Create entry if getter wasn't found yet (edge case)
+                                property_info[property_name] = {"has_setter": True}
+                            else:
                                 property_info[property_name]["has_setter"] = True
+                        break
         
         return property_info
 
@@ -944,37 +944,18 @@ class AsyncDocstringProcessor:
                 code_context=self._get_class_context(node, source),
                 qualified_name=qualified_name,
             )
-        elif isinstance(node, ast.FunctionDef):
-            # Skip setter methods
-            if self._is_setter_method(node):
-                return None
             
-            func_type = self._classify_function(node)
-            
-            # Create metadata for properties
-            metadata = {}
-            if func_type == DocstringType.PROPERTY and property_info and node.name in property_info:
-                metadata["has_setter"] = property_info[node.name].get("has_setter", False)
-            
-            
-            return DocstringObject(
-                type=func_type,
-                name=node.name,
-                content=docstring,
-                line_start=node.lineno,
-                line_end=node.lineno + len(docstring.split("\n")),
-                code_context=self._get_function_context(node, source),
-                qualified_name=qualified_name,
-                metadata=metadata,
-            )
-        elif isinstance(node, ast.AsyncFunctionDef):
-            # Skip setter methods
+        elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             if self._is_setter_method(node):
                 return None
                 
-            func_type = self._classify_async_function(node)
+            # Classify function type
+            if isinstance(node, ast.FunctionDef):
+                func_type = self._classify_function(node)
+            else:
+                func_type = self._classify_async_function(node)
             
-            # Create metadata for async properties
+            # Create metadata for properties
             metadata = {}
             if func_type == DocstringType.PROPERTY and property_info and node.name in property_info:
                 metadata["has_setter"] = property_info[node.name].get("has_setter", False)
@@ -1326,37 +1307,38 @@ class AsyncDocstringProcessor:
         self, node: ast.AST, docstring_object: DocstringObject, path: list[str]
     ) -> Optional[tuple[int, int, str, str]]:
         """Find docstring location by matching the full qualified name path."""
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-            current_path = path + [node.name]
-            
-            # Check if this matches our target qualified name
-            qualified_parts = docstring_object.qualified_name.split('.')
-            # Skip the file name (first part) to compare just the class.method parts
-            target_path = qualified_parts[1:] if len(qualified_parts) > 1 else [qualified_parts[0]]
-            
-            if current_path == target_path:
-                # Found our target node
-                docstring_node = self._get_docstring_node(node)
-                if docstring_node:
-                    return self._get_docstring_bounds(docstring_node)
-            
-            # If it's a class, recurse into its methods with updated path
-            if isinstance(node, ast.ClassDef):
-                for child in node.body:
-                    result = self._find_docstring_location_hierarchical(
-                        child, docstring_object, current_path
-                    )
-                    if result:
-                        return result
-        else:
-            # For non-class/function nodes, continue walking without updating path
+        # Early return for non-relevant nodes
+        if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            # Continue walking for other nodes
             for child in ast.iter_child_nodes(node):
+                result = self._find_docstring_location_hierarchical(child, docstring_object, path)
+                if result:
+                    return result
+            return None
+        
+        # Handle function/class nodes
+        current_path = path + [node.name]
+        
+        # Check if this matches our target qualified name
+        qualified_parts = docstring_object.qualified_name.split('.')
+        # Skip the file name (first part) to compare just the class.method parts
+        target_path = qualified_parts[1:] if len(qualified_parts) > 1 else [qualified_parts[0]]
+        
+        if current_path == target_path:
+            # Found our target node
+            docstring_node = self._get_docstring_node(node)
+            if docstring_node:
+                return self._get_docstring_bounds(docstring_node)
+        
+        # Recurse into class methods
+        if isinstance(node, ast.ClassDef):
+            for child in node.body:
                 result = self._find_docstring_location_hierarchical(
-                    child, docstring_object, path
+                    child, docstring_object, current_path
                 )
                 if result:
                     return result
-
+                    
         return None
 
     def _get_docstring_node(self, node: ast.AST) -> Optional[ast.Constant]:
@@ -1392,7 +1374,6 @@ class AsyncDocstringProcessor:
         match = re.match(pattern, stripped_line)
 
         if match:
-            prefix = match.group(1)
             quote_chars = match.group(2)
 
             # For docstrings, prefer triple quotes regardless of original
