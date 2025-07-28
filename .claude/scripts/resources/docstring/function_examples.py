@@ -1,12 +1,12 @@
 """
 Function Docstring Examples
-============================
+===========================
 
 Demonstrate function-level docstring patterns used in colour-science.
 
 This module focuses on various function types and their documentation
-patterns, including synchronous functions, asynchronous functions,
-and special cases like deprecation notices and mathematical notation.
+patterns, including synchronous functions, asynchronous functions, and
+special cases like deprecation notices and mathematical notation.
 """
 
 from __future__ import annotations
@@ -44,13 +44,15 @@ def function_example(
     """
     Process array data with specified scaling and method.
 
-    This function demonstrates comprehensive parameter documentation including
-    positional, keyword, and arbitrary keyword arguments.
+    Apply the specified scaling factor and processing method to transform
+    input array data. The function supports various processing methods and
+    accepts additional keyword arguments for fine-tuned control.
 
     Parameters
     ----------
     data
-        Input array data to process. Can be list, tuple, or numpy array.
+        Input array data to process. Accepts list, tuple, or numpy array
+        formats.
     scale
         Scaling factor to apply. Must be positive.
     method
@@ -91,7 +93,8 @@ def function_example(
 
     References
     ----------
-    :cite:`Doe2019` : Doe, J. (2019). Advanced Array Processing. Tech Report.
+    :cite:`Doe2019` : Doe, J. (2019). Advanced Array Processing. Tech
+        Report.
 
     Examples
     --------
@@ -131,29 +134,29 @@ async def async_function_example(
     timeout: float = 30.0
 ) -> dict:
     """
-    Asynchronously fetch data from a URL.
+    Fetch data asynchronously from the specified URL.
 
-    This async function demonstrates documentation for asynchronous operations
-    commonly used in modern Python applications.
+    This asynchronous function demonstrates documentation for asynchronous
+    operations commonly used in modern Python applications.
 
     Parameters
     ----------
     url
-        The URL to fetch data from.
+        URL from which to fetch data.
     timeout
-        Request timeout in seconds.
+        Request timeout duration in seconds.
 
     Returns
     -------
     :class:`dict`
-        Parsed JSON response data.
+        Parsed JSON response data from the URL.
 
     Raises
     ------
     asyncio.TimeoutError
-        If the request exceeds the timeout.
+        When the request exceeds the specified timeout duration.
     aiohttp.ClientError
-        If there's a network or HTTP error.
+        When a network or HTTP error occurs during the request.
 
     See Also
     --------
@@ -178,7 +181,7 @@ async def async_function_example(
 
 def function_with_warnings_and_deprecation(old_param: float) -> float:
     """
-    Legacy function demonstrating deprecation notices.
+    Demonstrate deprecation notices for legacy functionality.
 
     .. deprecated:: 0.4.0
         This function will be removed in colour-science 0.5.0.
@@ -215,8 +218,8 @@ def function_with_math_notation(
     y: ArrayLike,
     z: ArrayLike
 ) -> NDArrayFloat:
-    r"""
-    Compute vector cross product with mathematical notation.
+    """
+    Compute the vector cross product with mathematical notation.
 
     This function computes the cross product of two 3D vectors using the
     standard mathematical definition:

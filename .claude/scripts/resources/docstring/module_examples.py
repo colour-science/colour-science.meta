@@ -1,11 +1,12 @@
 """
 Module-Level Docstring Examples
-================================
+===============================
 
 Demonstrate module-level docstring patterns used in colour-science.
 
 This module focuses specifically on module-level documentation patterns,
-including module docstrings, constants, variables, and type aliases.
+encompassing module docstrings, constants, variables, and type aliases
+that adhere to scientific documentation standards.
 
 References
 ----------
@@ -38,7 +39,7 @@ __all__ = [
 
 CONSTANT_EXAMPLE: float = 1.0
 CONSTANT_EXAMPLE.__doc__ = """
-*float* constant example demonstrating module-level constant documentation.
+Demonstrate module-level constant documentation as a *float* example.
 
 This constant represents a normalized value used throughout the module.
 
@@ -51,8 +52,8 @@ MODULE_VARIABLE_EXAMPLE = {"key": "value", "another_key": 42}
 MODULE_VARIABLE_EXAMPLE.__doc__ = """
 Module-level variable example with complex structure.
 
-This variable demonstrates documentation for module-level dictionaries or
-other data structures that require detailed explanation.
+Demonstrate documentation for module-level dictionaries or other data
+structures that require detailed explanation.
 
 Attributes
 ----------

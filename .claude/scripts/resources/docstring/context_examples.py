@@ -2,7 +2,8 @@
 Context Manager and Special Pattern Examples
 =============================================
 
-Demonstrate context manager and special pattern docstrings used in colour-science.
+Demonstrate context manager and special pattern docstrings used in
+colour-science.
 
 This module focuses on context managers and other special patterns that
 require specific documentation approaches, including __enter__/__exit__
@@ -34,10 +35,12 @@ __all__ = [
 
 class VerboseContext:
     """
-    Context manager for temporarily modifying verbose settings.
+    Define a context manager for temporarily modifying verbose settings.
 
-    This context manager allows temporarily changing the verbosity level
-    for a block of code, similar to colour.utilities.verbose.
+    Enable temporary control of verbosity levels within a specific code
+    block, automatically restoring the previous verbose state upon exit.
+    This functionality mirrors the behaviour of
+    *colour.utilities.verbose*.
 
     Parameters
     ----------
@@ -58,7 +61,7 @@ class VerboseContext:
         Parameters
         ----------
         verbose
-            Verbose setting to apply.
+            Verbose setting to apply within the context.
         """
 
         self._verbose = verbose
@@ -66,7 +69,7 @@ class VerboseContext:
 
     def __enter__(self) -> VerboseContext:
         """
-        Enter the runtime context.
+        Enter the runtime context and activate the verbose setting.
 
         Returns
         -------
@@ -82,7 +85,7 @@ class VerboseContext:
 
     def __exit__(self, exc_type, exc_val, exc_tb) -> None:
         """
-        Exit the runtime context.
+        Exit the runtime context and restore the previous verbose state.
 
         Parameters
         ----------
