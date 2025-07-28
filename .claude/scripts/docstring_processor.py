@@ -251,7 +251,7 @@ Current docstring:
 Please return ONLY the improved docstring. Keep it concise and relevant to the method's role.
 Ensure all lines respect the {computed_line_length}-character limit.
 """,
-    "property": """
+    "property_getter_only": """
 {instruction_base}
 
 {instruction_formatting_multi_line}
@@ -261,6 +261,33 @@ PROPERTY TO IMPROVE:
 
 Current docstring:
 {docstring_object.content}
+
+IMPORTANT: This property only has a getter (no setter).
+The docstring should start with "Getter for..." and include:
+- Returns section (documenting what the getter returns)
+- Any other relevant sections (Notes, Examples, etc.)
+PRESERVE ALL EXISTING SECTIONS - do not remove any.
+
+Please return ONLY the improved docstring. Focus on what the property represents/returns.
+Ensure all lines respect the {computed_line_length}-character limit.
+""",
+    "property_getter_setter": """
+{instruction_base}
+
+{instruction_formatting_multi_line}
+
+PROPERTY TO IMPROVE:
+{docstring_object.code_context}
+
+Current docstring:
+{docstring_object.content}
+
+IMPORTANT: This property has both a getter and setter.
+The docstring should start with "Getter and setter for..." and include:
+- Parameters section (documenting the setter's parameters)
+- Returns section (documenting what the getter returns)
+- Any other relevant sections (Raises, Notes, Examples, etc.)
+PRESERVE ALL EXISTING SECTIONS - do not remove any.
 
 Please return ONLY the improved docstring. Focus on what the property represents/returns.
 Ensure all lines respect the {computed_line_length}-character limit.
@@ -386,7 +413,15 @@ class AsyncLLMProcessor:
         """Build prompt for the given docstring object."""
         indentation_spaces = len(indentation)
         computed_line_length = ProcessingConfig.line_length - indentation_spaces
-        type_template = TYPE_PROMPTS[docstring_object.type.value]
+        
+        # Determine the correct template based on docstring type and metadata
+        template_key = docstring_object.type.value
+        if docstring_object.type == DocstringType.PROPERTY:
+            has_setter = docstring_object.metadata.get("has_setter", False)
+            template_key = "property_getter_setter" if has_setter else "property_getter_only"
+        
+        type_template = TYPE_PROMPTS[template_key]
+        
         return type_template.format(
             instruction_base=INSTRUCTION_MAIN,
             instruction_formatting_multi_line=INSTRUCTION_FORMATTING_MULTI_LINE,
@@ -749,7 +784,7 @@ class AsyncDocstringProcessor:
             # Walk the tree hierarchically to find functions, classes, and variable docstrings
             file_stem = file_path.stem
             self._walk_tree_hierarchically(
-                tree, source, file_stem, [], docstring_objects
+                tree, source, file_stem, [], docstring_objects, None
             )
 
             # Find module-level attribute docstrings (var.__doc__ = "...")
@@ -824,6 +859,7 @@ class AsyncDocstringProcessor:
         file_stem: str,
         path: list[str],
         docstring_objects: list[DocstringObject],
+        property_info: Optional[dict[str, dict]] = None,
     ) -> None:
         """Walk AST tree hierarchically to maintain class/function hierarchy."""
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
@@ -834,7 +870,7 @@ class AsyncDocstringProcessor:
                 qualified_name = ".".join(qualified_parts)
 
                 docstring_object = self._create_docstring_object(
-                    node, docstring, source, qualified_name
+                    node, docstring, source, qualified_name, property_info
                 )
                 if docstring_object:
                     docstring_objects.append(docstring_object)
@@ -842,21 +878,62 @@ class AsyncDocstringProcessor:
             # If it's a class, recurse into its methods with updated path
             if isinstance(node, ast.ClassDef):
                 new_path = path + [node.name]
+                # First pass: identify all properties and setters in this class
+                class_property_info = self._identify_class_properties(node)
+                
                 for child in node.body:
                     self._walk_tree_hierarchically(
-                        child, source, file_stem, new_path, docstring_objects
+                        child, source, file_stem, new_path, docstring_objects, class_property_info
                     )
         else:
             # For non-class/function nodes, continue walking without updating path
             for child in ast.iter_child_nodes(node):
                 self._walk_tree_hierarchically(
-                    child, source, file_stem, path, docstring_objects
+                    child, source, file_stem, path, docstring_objects, property_info
                 )
 
+    def _identify_class_properties(self, class_node: ast.ClassDef) -> dict[str, dict]:
+        """Identify all properties and their setters in a class.
+        
+        Returns a dict mapping property names to their info:
+        - has_setter: bool indicating if the property has a setter
+        """
+        property_info = {}
+        
+        # First pass: identify all property getters
+        for node in class_node.body:
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                for decorator in node.decorator_list:
+                    if isinstance(decorator, ast.Name) and decorator.id == "property":
+                        property_info[node.name] = {"has_setter": False}
+                        break
+        
+        # Second pass: identify setters and update property info
+        for node in class_node.body:
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                for decorator in node.decorator_list:
+                    if isinstance(decorator, ast.Attribute) and decorator.attr == "setter":
+                        if isinstance(decorator.value, ast.Name):
+                            property_name = decorator.value.id
+                            # Mark the property as having a setter
+                            if property_name in property_info:
+                                property_info[property_name]["has_setter"] = True
+        
+        return property_info
+
+    def _is_setter_method(self, node: Union[ast.FunctionDef, ast.AsyncFunctionDef]) -> bool:
+        """Check if a function/method is a property setter."""
+        for decorator in node.decorator_list:
+            if isinstance(decorator, ast.Attribute) and decorator.attr == "setter":
+                return True
+        return False
+
     def _create_docstring_object(
-        self, node: ast.AST, docstring: str, source: str, qualified_name: str = ""
+        self, node: ast.AST, docstring: str, source: str, qualified_name: str = "",
+        property_info: Optional[dict[str, dict]] = None
     ) -> Optional[DocstringObject]:
         """Create DocstringObject from AST node."""
+        
         if isinstance(node, ast.ClassDef):
             return DocstringObject(
                 type=DocstringType.CLASS,
@@ -868,7 +945,18 @@ class AsyncDocstringProcessor:
                 qualified_name=qualified_name,
             )
         elif isinstance(node, ast.FunctionDef):
+            # Skip setter methods
+            if self._is_setter_method(node):
+                return None
+            
             func_type = self._classify_function(node)
+            
+            # Create metadata for properties
+            metadata = {}
+            if func_type == DocstringType.PROPERTY and property_info and node.name in property_info:
+                metadata["has_setter"] = property_info[node.name].get("has_setter", False)
+            
+            
             return DocstringObject(
                 type=func_type,
                 name=node.name,
@@ -877,13 +965,20 @@ class AsyncDocstringProcessor:
                 line_end=node.lineno + len(docstring.split("\n")),
                 code_context=self._get_function_context(node, source),
                 qualified_name=qualified_name,
+                metadata=metadata,
             )
         elif isinstance(node, ast.AsyncFunctionDef):
-            func_type = (
-                DocstringType.ASYNC_METHOD
-                if self._is_method(node)
-                else DocstringType.ASYNC_FUNCTION
-            )
+            # Skip setter methods
+            if self._is_setter_method(node):
+                return None
+                
+            func_type = self._classify_async_function(node)
+            
+            # Create metadata for async properties
+            metadata = {}
+            if func_type == DocstringType.PROPERTY and property_info and node.name in property_info:
+                metadata["has_setter"] = property_info[node.name].get("has_setter", False)
+            
             return DocstringObject(
                 type=func_type,
                 name=node.name,
@@ -892,6 +987,7 @@ class AsyncDocstringProcessor:
                 line_end=node.lineno + len(docstring.split("\n")),
                 code_context=self._get_function_context(node, source),
                 qualified_name=qualified_name,
+                metadata=metadata,
             )
 
         return None
@@ -911,6 +1007,22 @@ class AsyncDocstringProcessor:
             return DocstringType.METHOD
 
         return DocstringType.FUNCTION
+
+    def _classify_async_function(self, node: ast.AsyncFunctionDef) -> DocstringType:
+        """Classify async function type based on decorators and context."""
+        for decorator in node.decorator_list:
+            if isinstance(decorator, ast.Name):
+                if decorator.id == "staticmethod":
+                    return DocstringType.STATICMETHOD
+                elif decorator.id == "classmethod":
+                    return DocstringType.CLASSMETHOD
+                elif decorator.id == "property":
+                    return DocstringType.PROPERTY
+
+        if self._is_method(node):
+            return DocstringType.ASYNC_METHOD
+
+        return DocstringType.ASYNC_FUNCTION
 
     def _is_method(self, node: Union[ast.FunctionDef, ast.AsyncFunctionDef]) -> bool:
         """Check if function is a method by examining first parameter."""
