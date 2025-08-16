@@ -165,7 +165,7 @@ CRITICAL PRESERVATION RULES (NEVER VIOLATE):
 
 ENHANCEMENT GUIDELINES:
 - **IMPROVE CLARITY**: Enhance readability and comprehensibility of existing text
-- **IMPROVE TERMINOLOGY**: Use more precise scientific language where appropriate
+- **IMPROVE TERMINOLOGY**: Use more precise scientific language where appropriate (e.g., "using the" instead of "according to" when referencing standards/methods)
 - **IMPROVE STRUCTURE**: Better organize existing content for readability
 - **IMPROVE CONSISTENCY**: Standardize formatting and terminology
 - **NO CONTENT MIGRATION**: NEVER include content from other functions/classes
