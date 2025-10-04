@@ -1,159 +1,208 @@
-# Project: Task 5 - Detailed Configuration Files Analysis
+LE# Project: Fix detect_colour_checkers_templated Implementation
 
 ## Background and Motivation
-
-Task 5 performs an in-depth analysis of key configuration files across the colour-science ecosystem. The analysis focuses on five critical configuration file types (GitHub workflows, pre-commit configs, tasks.py, docs/conf.py, and pyproject.toml) using the `colour` repository as reference. This analysis goes beyond simple line differences to understand semantic variations and generate actionable recommendations for standardization.
+The `detect_colour_checkers_templated` function in colour-checker-detection needs to be fixed using the working implementation from `.sandbox/Demo/perspective_demo.ipynb`. The current implementation has issues with perspective transformation detection and template matching that prevent it from working correctly.
 
 ## Affected Repositories
-- [x] colour/ (core reference repository)
 - [x] colour-checker-detection/
-- [x] colour-clf-io/
-- [x] colour-dash/
-- [x] colour-datasets/
-- [x] colour-demosaicing/
-- [x] colour-hdri/
-- [x] colour-specio/
-- [x] colour-visuals/
-- [x] colour-science.meta/ (execution location)
 
 ## Key Challenges and Analysis
 
-1. **Multi-format Parsing**: Handle YAML, TOML, and Python configuration files
-2. **Semantic Analysis**: Understand functional differences beyond line counts
-3. **Missing File Handling**: Gracefully handle repositories lacking configs
-4. **Table Formatting**: Generate properly aligned Markdown tables
-5. **Actionable Insights**: Produce specific recommendations for standardization
-6. **Performance**: Efficiently analyze all files across 9 repositories
+### Current Implementation Issues:
+1. **Missing imports**: The current code imports `load_template` but it's missing other critical imports like `WarpingData`, `cdist`, `linear_sum_assignment`
+2. **Incomplete segmentation logic**: The `segmenter_templated` function doesn't properly implement the perspective-aware detection shown in the demo
+3. **Broken transformation logic**: The `determine_best_transformation` function exists but isn't properly integrated
+4. **Missing correspondence logic**: The demo shows complex correspondence matching that's not in the current implementation
+
+### Working Demo Implementation Key Components:
+1. **Proper swatch detection**: Uses DBSCAN for outlier removal and proper contour filtering
+2. **Cluster-based detection**: Groups swatches into clusters representing potential colour checkers
+3. **Perspective transformation**: Uses brute-force correspondence matching with multiple templates
+4. **Validation**: Includes colour validation against template colours
+
+### Dependencies Needed:
+- `from dataclasses import dataclass` (for WarpingData)
+- `from scipy.spatial.distance import cdist`
+- `from scipy.optimize import linear_sum_assignment`
+- `from sklearn.cluster import DBSCAN`
+- Proper Template loading with correspondences
 
 ## High-level Task Breakdown
 
-### Task 5 Implementation
-- [ ] Task 1: Create analysis script structure
-  - Repository: colour-science.meta/
-  - Success Criteria: Script framework with proper imports and classes
-  - Validation: Handles JSON input and file parsing
+### Phase 1: Fix Core Dependencies and Data Structures
+- [ ] Task 1: Add missing imports to templated.py
+  - Repository: colour-checker-detection/
+  - Success Criteria: All necessary imports present (dataclass, scipy, sklearn)
+  - Validation: Module imports without errors
 
-- [ ] Task 2: Implement configuration parsers
-  - Repository: colour-science.meta/  
-  - Success Criteria: Parse YAML/TOML files and extract semantic data
-  - Validation: Correctly handles malformed files
+- [ ] Task 2: Ensure WarpingData dataclass is properly defined
+  - Repository: colour-checker-detection/
+  - Success Criteria: WarpingData class exists with all fields from demo
+  - Validation: Can instantiate WarpingData objects
 
-- [ ] Task 3: Generate analysis report
-  - Repository: colour-science.meta/
-  - Success Criteria: Create `.sandbox/detailed-config-analysis.md`
-  - Validation: Properly formatted tables with actionable insights
+### Phase 2: Update Segmenter Function
+- [ ] Task 3: Reimplement segmenter_templated with perspective-aware logic
+  - Repository: colour-checker-detection/
+  - Success Criteria: Implements swatch detection, DBSCAN outlier removal, clustering
+  - Validation: Returns proper DataSegmentationColourCheckers
+
+- [ ] Task 4: Add order_centroids functionality
+  - Repository: colour-checker-detection/
+  - Success Criteria: Orders centroids by quadrant for correspondence matching
+  - Validation: Produces 4 ordered points per cluster
+
+### Phase 3: Fix Transformation Determination
+- [ ] Task 5: Update determine_best_transformation function
+  - Repository: colour-checker-detection/
+  - Success Criteria: Implements brute-force correspondence matching as in demo
+  - Validation: Returns WarpingData with valid transformations
+
+- [ ] Task 6: Integrate transformation logic with templates
+  - Repository: colour-checker-detection/
+  - Success Criteria: Works with multiple templates (colour, gray)
+  - Validation: Correctly identifies best template match
+
+### Phase 4: Update Extractor Function
+- [ ] Task 7: Reimplement extractor_templated with transformation application
+  - Repository: colour-checker-detection/
+  - Success Criteria: Applies perspective transformation and extracts colours
+  - Validation: Returns DataDetectionColourChecker objects
+
+- [ ] Task 8: Add colour validation logic
+  - Repository: colour-checker-detection/
+  - Success Criteria: Validates extracted colours against template
+  - Validation: Detects flipped checkers and invalid detections
+
+### Phase 5: Integration and Testing
+- [ ] Task 9: Update detect_colour_checkers_templated main function
+  - Repository: colour-checker-detection/
+  - Success Criteria: Properly orchestrates segmenter and extractor
+  - Validation: Function works end-to-end
+
+- [ ] Task 10: Test with perspective images
+  - Repository: colour-checker-detection/
+  - Success Criteria: Successfully detects checkers in perspective views
+  - Validation: Produces correct colour values
 
 ## Project Status Board
-
 ### In Progress
-- None currently
+- [ ] Creating implementation plan
 
 ### Completed
-- [x] Task 1: Create analysis script structure
-- [x] Task 2: Implement configuration parsers
-- [x] Task 3: Generate analysis report
-- [x] Planning phase complete
-- [x] Task 5 specification defined
-- [x] Algorithm design complete with enhanced grouping patterns
-- [x] JSON input data available from Task 3
-- [x] Enhanced scripts with grouping patterns implemented
-- [x] Task file algorithm updated to match implementation
-- [x] Configuration analysis executed successfully
-- [x] Enhanced ruff rule analysis to show specific differences
-- [x] Final report validation completed (331 lines, 256 table rows)
+- [x] Analyzed current implementation
+- [x] Reviewed working demo implementation
+- [x] Identified key differences and dependencies
 
 ### Blocked
-- None currently
+- None
 
 ## Current Status / Progress Tracking
+- Completed analysis of both implementations
+- Identified that the demo uses a more sophisticated approach with:
+  - DBSCAN for outlier removal
+  - Proper clustering of swatches
+  - Brute-force correspondence matching
+  - Template-based perspective transformation
+- Key insight: The demo implementation is much more robust for perspective views
 
-**PLANNING TASK 5: Enhanced Configuration Analysis**
+## Implementation Strategy
 
-**Current Resources Available**:
-✅ **Configuration Data**: Task 3 JSON with 122 files across 10 repositories
-✅ **Enhanced Scripts**: Configuration analyzer with semantic analysis capabilities
-✅ **Report Generator**: Advanced formatting with grouping patterns
-✅ **Task Specification**: Fully updated algorithm matching implementation
-✅ **Previous Analysis**: Successful configuration-files-analysis.md (332 lines)
+The fix requires substantial changes to bring the production code in line with the demo:
 
-**Enhanced Features Ready**:
-- Grouping by configuration type rather than repository
-- Hook configuration differences grouped by hook type
-- Dependency analysis grouped by usage patterns
-- Tool configuration differences grouped by setting type
-- Relative path usage throughout
-- Empty subsection removal
-- Repository names with backticks for readability
+1. **Import Structure**: Add all missing scientific computing dependencies
+2. **Data Flow**: Implement the three-stage pipeline (detect_swatches → determine_transformation → extract_colours)
+3. **Template Integration**: Ensure templates have proper correspondences
+4. **Validation**: Add colour validation to detect incorrect detections
 
-**Ready to Execute**:
-- All scripts tested and working
-- Algorithm synchronized with implementation
-- Input data validated and available
-- Output format specified and tested
+## Potential Failure Points Identified
+
+### ✅ Dependencies Check
+- WarpingData dataclass: **Already exists and imports correctly**
+- scipy.spatial.distance.cdist: **Available and working**
+- scipy.optimize.linear_sum_assignment: **Available and working**
+- sklearn.cluster.DBSCAN: **Available and working**
+
+### ⚠️ Critical Issues to Address
+
+1. **Import Organization**: While dependencies exist, they're not imported in templated.py:
+   - Need to add: `from scipy.spatial.distance import cdist`
+   - Need to add: `from sklearn.cluster import DBSCAN`
+   - Already has: `from scipy.optimize import linear_sum_assignment`
+
+2. **Function Integration Gap**: 
+   - `determine_best_transformation` exists but isn't called by segmenter/extractor
+   - `order_centroids` exists but may not be properly integrated
+   - Missing connection between segmenter output and transformation determination
+
+3. **Template Correspondence Loading**:
+   - Need to verify templates are loaded with valid correspondences
+   - Current `load_template` function exists and uses NPZ format
+
+4. **Data Flow Issues**:
+   - Current `segmenter_templated` doesn't return clustered centroids needed for transformation
+   - Current `extractor_templated` doesn't use WarpingData from transformation step
+   - Main function doesn't orchestrate the three-stage pipeline correctly
+
+### Revised Implementation Priority
+
+1. **First**: Add missing imports (low risk, immediate benefit)
+2. **Second**: Fix data flow between functions (critical for pipeline)
+3. **Third**: Update segmenter to return proper data structure
+4. **Fourth**: Update extractor to use transformation data
+5. **Fifth**: Fix main orchestration function
+6. **Sixth**: Create comprehensive unit tests
+
+## Unit Test Verification Strategy
+
+### Test Structure (Based on test_detect_colour_checkers_segmentation)
+Create new test class `TestDetectColourCheckersTemplated` that:
+
+1. **Follows exact pattern** of `test_detect_colour_checkers_segmentation`:
+   - Uses same PNG_FILES test images
+   - Platform-specific handling (macOS only for reproducibility)
+   - Tests multiple images with expected output arrays
+
+2. **Test data structure**:
+   ```python
+   test_swatches = [
+       (np.array([...]),),  # Expected output for image 1
+       (np.array([...]),),  # Expected output for image 2
+       # ... for each test image
+   ]
+   ```
+
+3. **Key differences for templated version**:
+   - Call `detect_colour_checkers_templated()` instead of `detect_colour_checkers_segmentation()`
+   - Update expected test values based on perspective-corrected output
+   - Add tests for both 'colour' and 'gray' templates
+   - Test with `additional_data=True` to verify WarpingData output
+
+4. **Additional test cases**:
+   - Test perspective transformation accuracy
+   - Test template correspondence matching
+   - Test colour validation (flipped checker detection)
+   - Test multi-template detection (colour vs gray)
+
+5. **Validation approach**:
+   ```python
+   for i, png_file in enumerate(PNG_FILES):
+       np.testing.assert_allclose(
+           detect_colour_checkers_templated(
+               png_file, 
+               prefer_template='colour',
+               additional_data=False
+           ),
+           test_swatches[i],
+           atol=0.0001,
+       )
+   ```
 
 ## Executor's Feedback or Assistance Requests
-
-None at this time. Ready to implement configuration analysis.
+None currently - plan validated and ready for implementation
 
 ## Lessons
-
-- Semantic analysis provides more value than line-by-line comparison
-- Table formatting with proper alignment improves readability
-- Full repository names in headers clarify analysis scope
-- Centered checkmarks create visual consistency
-
-## Implementation Details
-
-### Task 5 Analysis Plan
-
-**Objective**: Perform detailed semantic analysis of 5 configuration file types.
-
-**Implementation Steps**:
-1. Create `ConfigurationAnalyzer` class
-2. Implement parsers for YAML, TOML, and Python files
-3. Analyze differences at semantic level (not just line counts)
-4. Generate Markdown report with aligned tables
-
-**Script Structure**: `.sandbox/detailed_config_analyzer.py`
-- Load JSON data from Task 3
-- Parse configuration files using appropriate libraries
-- Compare against colour repository baseline
-- Format findings into readable Markdown tables
-
-**Expected Output**: `.sandbox/detailed-config-analysis.md`
-- Executive summary with key metrics
-- 5 sections for each configuration type
-- Properly aligned tables with centered checkmarks
-- Prioritized recommendations
-
-### Validation Criteria
-
-**Script Functionality**:
-- Successfully loads JSON configuration data
-- Handles missing files gracefully without crashing
-- Parses YAML/TOML files correctly
-- Generates valid Markdown output
-
-**Report Quality**:
-- All tables properly aligned with consistent formatting
-- Checkmarks centered in appropriate columns
-- Full repository names used in headers
-- Clear section organization
-
-**Analysis Accuracy**:
-- Correctly identifies missing configurations
-- Detects version differences in tools
-- Finds workflow variations
-- Produces actionable recommendations
-
-### Execution Commands
-
-```bash
-# Task 5: Detailed configuration analysis
-python3 .sandbox/detailed_config_analyzer.py
-
-# Validation commands
-head -20 .sandbox/detailed-config-analysis.md  # Check report header
-grep -c "^|" .sandbox/detailed-config-analysis.md  # Count table rows
-grep "Priority" .sandbox/detailed-config-analysis.md  # Check recommendations
-```
+- The demo implementation uses a more sophisticated multi-stage approach than the current production code
+- Key to perspective handling is the brute-force correspondence matching with template points
+- DBSCAN clustering is crucial for removing outlier swatches
+- The transformation determination step is critical and was missing from the production flow
+- **NEW**: Most dependencies already exist, main issue is integration and data flow between functions

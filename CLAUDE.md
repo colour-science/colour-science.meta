@@ -13,6 +13,7 @@ You may ONLY work within these colour-science repositories:
 - `colour/` - Core colour science library
 - `colour-checker-detection/` - Library for detecting colour checkers
 - `colour-clf-io/` - Common LUT Format (CLF) I/O library
+- `colour-cxf/` - Color Exchange Format (CXF) I/O library
 - `colour-dash/` - Dash-based web application for colour science
 - `colour-datasets/` - Package for accessing colour science datasets
 - `colour-demosaicing/` - Demosaicing algorithms

@@ -25,3 +25,6 @@
 [submodule "colour-visuals"]
 	path = colour-visuals
 	url = https://github.com/colour-science/colour-visuals.git
+[submodule "colour-cxf"]
+	path = colour-cxf
+	url = https://github.com/colour-science/colour-cxf
