@@ -24,3 +24,4 @@ references/
 __pycache__
 
 .claude/settings.local.json
+.claude/scratchpad.md
